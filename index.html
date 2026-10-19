@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMATECHIA BALLA - IA Brillante 🇬🇳</title>
+<title>AMATECHIA BALLA V2 - Voix Homme</title>
 <style>
 body{margin:0;font-family:Arial;background:#0f172a;color:white;display:flex;flex-direction:column;height:100vh}
 header{background:#1e293b;padding:15px;text-align:center;border-bottom:2px solid #facc15}
-header h1{margin:0;color:#facc15} header p{margin:5px 0 0;font-size:13px;opacity:0.8}
+header h1{margin:0;color:#facc15}
 #chat{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:10px}
 .msg{max-width:85%;padding:12px 15px;border-radius:15px;line-height:1.5;white-space:pre-wrap}
 .user{align-self:flex-end;background:#facc15;color:black}
@@ -21,98 +21,45 @@ button{padding:12px 15px;border-radius:25px;border:none;cursor:pointer;font-weig
 </head>
 <body>
 <header>
-<h1>🇬🇳 AMATECHIA BALLA V2</h1>
-<p>IA Brillante - Parle, Écoute, Résout tous les Exos - Par Balla Moussa Diawara</p>
+<h1>V2 AMATECHIA BALLA</h1>
+<p>IA Brillante - Voix Homme - Par Balla Moussa Diawara</p>
 </header>
-
 <div id="chat">
-<div class="msg bot">Salut c'est Balla ! Je suis maintenant BRILLANTE comme Meta AI ! 🌟
-
-Je parle, j'écoute, je fais :
-📚 Maths, Physique, Chimie
-🇬🇳 BTP, Latérite, Construction
-🇫🇷 Français, Anglais, Malinké
-💼 Business, Entrepreneuriat
-Tu peux me parler vocalement aussi !
-
-Pose ta question !</div>
+<div class="msg bot">Salut c'est Balla ! Je parle maintenant avec une voix d'HOMME ! Maths, BTP, Business ! Pose ta question !</div>
 </div>
-
 <div id="inputArea">
 <button id="voice">🎤</button>
-<input id="input" placeholder="Écris ou parle... ex: résous x²=4 ou explique la latérite">
+<input id="input" placeholder="Ex: resous x²=4">
 <button id="send">Envoyer</button>
 </div>
-
 <div id="config">
-<input id="apiKey" placeholder="Colle ta clé gsk_... ici une seule fois" style="width:70%;padding:8px;border-radius:10px;border:none">
+<input id="apiKey" placeholder="Colle ta cle gsk_ ici" style="width:70%;padding:8px;border-radius:10px;border:none">
 <button onclick="saveKey()" style="background:#facc15;padding:8px 12px;border-radius:10px;border:none;font-weight:bold">Activer Cerveau</button>
-<p style="font-size:11px;margin-top:5px">Ta clé reste dans ton téléphone, jamais partagée.</p>
 </div>
-
 <script>
 let apiKey = localStorage.getItem('groqKey') || '';
-if(apiKey) document.getElementById('apiKey').value = apiKey.substring(0,15)+'...';
+if(apiKey) document.getElementById('apiKey').value = apiKey;
 
 function saveKey(){
  let k=document.getElementById('apiKey').value.trim();
- if(k.length<20 || !k.startsWith('gsk_')){alert('Colle la vraie clé qui commence par gsk_');return;}
- localStorage.setItem('groqKey',k); apiKey=k; alert('CERVEAU ACTIVÉ ! Maintenant je suis brillante comme Meta AI !'); 
- document.getElementById('config').style.display='none';
+ if(k.length<20 || !k.startsWith('gsk_')){alert('Colle la vraie cle gsk_');return;}
+ localStorage.setItem('groqKey',k); apiKey=k; alert('CERVEAU ACTIVE ! Voix Homme prête !'); document.getElementById('config').style.display='none';
 }
 
 const chat=document.getElementById('chat');
 const input=document.getElementById('input');
 
+function getMaleVoice(){
+ let voices=speechSynthesis.getVoices();
+ // Cherche une voix d'homme en français
+ let male = voices.find(v=>v.name.includes('Thomas')) || voices.find(v=>v.name.includes('Paul')) || voices.find(v=>v.name.toLowerCase().includes('male') && v.lang.startsWith('fr')) || voices.find(v=>v.lang==='fr-FR') || voices.find(v=>v.lang.startsWith('fr')) || voices[0];
+ return male;
+}
+
 function addMsg(text,cls){
  let d=document.createElement('div'); d.className='msg '+cls; d.textContent=text; chat.appendChild(d); chat.scrollTop=chat.scrollHeight;
- if(cls==='bot') speak(text);
-}
-
-function speak(text){
- let clean=text.substring(0,300);
- let u=new SpeechSynthesisUtterance(clean); u.lang='fr-FR'; u.rate=0.95; speechSynthesis.cancel(); speechSynthesis.speak(u);
-}
-
-async function askGroq(question){
- if(!apiKey){ addMsg('⚠️ Colle d\'abord ta clé gsk_ en bas et clique Activer Cerveau !','bot'); return; }
- addMsg(question,'user'); input.value='';
- let thinking=document.createElement('div'); thinking.className='msg bot'; thinking.textContent='Balla réfléchit... 🧠'; chat.appendChild(thinking); chat.scrollTop=chat.scrollHeight;
-
- try{
-  let res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-   method:'POST',
-   headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
-   body:JSON.stringify({
-    model:'llama-3.3-70b-versatile',
-    messages:[
-     {role:'system',content:`Tu es AMATECHIA BALLA, IA Guinéenne brillante créée par Balla Moussa Diawara, élève à Conakry. Tu es prof expert en TOUT: maths, physique, chimie, français, anglais, malinké, soussou, pular, BTP, génie civil, latérite, entrepreneuriat, business, enseignement. Tu expliques comme un grand frère guinéen, clair, avec exemples de Conakry (Km36, Kaporo, Sonfonia). Tu résous les exercices étape par étape. Tu réponds toujours en français sauf si on te parle en autre langue. Sois brillante, utile, fière d'être Guinéenne. Max 200 mots.`},
-     {role:'user',content:question}
-    ],
-    temperature:0.7,
-    max_tokens:800
-   })
-  });
-  let data=await res.json();
-  thinking.remove();
-  if(data.error){ addMsg('Erreur: '+data.error.message+' - Vérifie ta clé gsk_','bot'); return; }
-  let answer=data.choices[0].message.content;
-  addMsg(answer,'bot');
- }catch(e){ thinking.remove(); addMsg('Erreur réseau. Vérifie internet.','bot'); }
-}
-
-document.getElementById('send').onclick=()=>{ if(input.value.trim()) askGroq(input.value.trim()); };
-input.onkeypress=(e)=>{ if(e.key==='Enter' && input.value.trim()) askGroq(input.value.trim()); };
-
-// VOIX - Ecoute
-document.getElementById('voice').onclick=()=>{
- let SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SpeechRecognition){ alert('Ton navigateur ne supporte pas la voix, utilise Chrome'); return; }
- let rec=new SpeechRecognition(); rec.lang='fr-FR'; rec.start();
- document.getElementById('voice').textContent='🔴 écoute...';
- rec.onresult=(e)=>{ input.value=e.results[0][0].transcript; askGroq(input.value); };
- rec.onend=()=>{ document.getElementById('voice').textContent='🎤'; };
-};
-</script>
-</body>
-</html>
+ if(cls==='bot'){
+  let u=new SpeechSynthesisUtterance(text.substring(0,350));
+  u.lang='fr-FR';
+  let mv=getMaleVoice();
+  if
