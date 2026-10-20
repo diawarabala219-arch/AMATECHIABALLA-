@@ -1,51 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AMATECHIA V17 - Comme Meta AI</title>
+<title>AMATECHIA V18 FINAL HD</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui;background:#212121;color:#ececec;min-height:100dvh;display:flex;flex-direction:column}
-.top{padding:14px;text-align:center;background:#171717;border-bottom:1px solid #2f2f2f;position:sticky;top:0}
-.center{flex:1;overflow-y:auto;padding:0 0 110px;max-width:800px;margin:0 auto;width:100%}
-.welcome{padding:30px 20px;text-align:center}
-.welcome h2{font-size:26px}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
-.c{background:#2f2f2f;border:1px solid #3f3f3f;border-radius:12px;padding:14px;cursor:pointer}
-.c b{font-size:13px;display:block}.c span{font-size:11px;color:#8e8ea0}
-.chat{display:none;flex-direction:column}.chat.show{display:flex}
-.msg{padding:20px 16px;display:flex;gap:14px;border-bottom:1px solid #2f2f2f}
-.msg.user{background:#212121}.msg.ai{background:#2f2f2f}
-.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
-.avatar.user{background:#facc15;color:#000}.avatar.ai{background:#10a37f;color:#fff}
-.content{flex:1}.content p{font-size:14px;line-height:1.6;margin:6px 0}
-.content canvas{max-width:100%;border-radius:12px;margin:12px 0;background:#fff;display:block}
-.btn{padding:10px 16px;border-radius:20px;border:none;font-weight:700;font-size:13px;cursor:pointer;margin:6px 6px 0 0}
-.btn.y{background:#facc15;color:#000}.btn.b{background:#0ea5e9;color:#fff}
-.input-area{position:fixed;bottom:0;left:0;right:0;background:#212121;padding:12px 16px;border-top:1px solid #2f2f2f}
-.input-wrap{max-width:800px;margin:0 auto;background:#2f2f2f;border-radius:24px;display:flex;padding:8px 12px;gap:8px;border:1px solid #444}
-.input-wrap textarea{flex:1;background:transparent;border:none;color:#fff;outline:none;resize:none;font-size:15px}
-.input-wrap button{width:34px;height:34px;border-radius:50%;border:none;background:#fff;color:#000;font-weight:900;cursor:pointer}
+body{margin:0;background:#212121;color:#fff;font-family:system-ui}
+.top{background:#171717;padding:15px;text-align:center;border-bottom:2px solid #facc15}
+.card{background:#2f2f2f;border:1px solid #444;border-radius:12px;padding:15px;margin:15px;max-width:800px;margin:15px auto}
+.card img{width:100%;border-radius:10px;background:#fff}
+.btn{width:100%;padding:14px;border:none;border-radius:10px;font-weight:900;margin-top:10px;background:#facc15;color:#000}
 </style></head><body>
-<div class="top"><h1>AMATECHIA V17 - Comme toi</h1><p style="font-size:11px;color:#8e8ea0">BTP • Plans HD • Balla 19 ans Kagbelen • 0 GNF</p></div>
-<div class="center" id="center">
-<div id="welcome" class="welcome">
-<h2>Comment puis-je t'aider ?</h2>
-<div class="cards">
-<div class="c" onclick="ask('plan 7.5x6.5')"><b>📐 Plan RDC 7.5x6.5 HD</b><span>Meublé lit, canapé, voiture, tableau</span></div>
-<div class="c" onclick="ask('façade toit rouge marbre noir')"><b>🏠 Façade 3D toit rouge</b><span>Marbre noir, garage noir, plantes</span></div>
-<div class="c" onclick="ask('salut')"><b>👋 Salut</b><span>Parle avec AMATECHIA</span></div>
-<div class="c" onclick="ask('pack client')"><b>✨ Pack client complet</b><span>Plan + Façade</span></div>
-</div></div>
-<div class="chat" id="chat"></div></div>
-<div class="input-area"><div class="input-wrap"><textarea id="q" rows="1" placeholder="Message AMATECHIA... ex: plan 7.5x6.5..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea><button onclick="send()">↑</button></div></div>
-<script>
-let q=document.getElementById('q'),chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),center=document.getElementById('center');
-function addMsg(r,h){let d=document.createElement('div');d.className='msg '+r;d.innerHTML=`<div class="avatar ${r}">${r==='user'?'B':'A'}</div><div class="content">${h}</div>`;chat.appendChild(d);center.scrollTop=999999;return d;}
-function hideWelcome(){welcome.style.display='none';chat.classList.add('show');}
-function drawPlan(L,l,nom){let c=document.createElement('canvas');c.width=1000;c.height=700;let x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,1000,700);x.fillStyle='#1e3a8a';x.fillRect(0,0,1000,50);x.fillStyle='#fff';x.font='bold 22px sans-serif';x.fillText(`PLAN RDC ${L}x${l}m - ${nom} - ${(L*l).toFixed(1)}m²`,10,32);x.strokeStyle='#000';x.lineWidth=4;x.strokeRect(10,60,650,600);x.fillStyle='#fef3c7';x.fillRect(10,60,200,200);x.strokeRect(10,60,200,200);x.fillStyle='#000';x.font='12px sans-serif';x.fillText('CHAMBRE 3x3 🛏️',20,100);x.fillStyle='#fffbeb';x.fillRect(210,60,220,200);x.strokeRect(210,60,220,200);x.fillText('SALON 3.5x3.5 🛋️',220,100);x.fillStyle='#f1f5f9';x.fillRect(10,260,300,400);x.strokeRect(10,260,300,400);x.fillText('GARAGE 2.9x5 🚗',20,300);x.fillStyle='#888';x.fillRect(60,350,180,140);return c;}
-function drawFacade(nom){let c=document.createElement('canvas');c.width=900;c.height=500;let x=c.getContext('2d');x.fillStyle='#87CEEB';x.fillRect(0,0,900,220);x.fillStyle='#6b7280';x.fillRect(0,220,900,280);x.fillStyle='#f5f5dc';x.fillRect(150,140,500,120);x.fillStyle='#dc2626';x.beginPath();x.moveTo(130,140);x.lineTo(400,50);x.lineTo(670,140);x.fill();x.fillStyle='#111827';x.fillRect(250,140,35,120);x.fillRect(500,140,35,120);x.fillStyle='#fff';x.strokeStyle='#000';x.font='bold 18px sans-serif';x.strokeText(nom+' - Toit rouge Marbre noir',150,30);x.fillText(nom+' - Toit rouge Marbre noir',150,30);return c;}
-function showPlan(L=7.5,l=6.5,nom='Villa Kagbelen'){hideWelcome();addMsg('user',`<p>Plan ${L}x${l} - ${nom}</p>`);let m=addMsg('ai',`<p><b>📐 Plan RDC ${L}x${l}m - ${nom} - HD PRO avec tableau surfaces</b></p>`);let c=drawPlan(L,l,nom);m.querySelector('.content').appendChild(c);let b=document.createElement('button');b.className='btn y';b.textContent='📥 Télécharger PNG';b.onclick=()=>{let a=document.createElement('a');a.download=`Plan-${L}x${l}.png`;a.href=c.toDataURL();a.click();};m.querySelector('.content').appendChild(b);}
-function showFacade(nom='Villa Kagbelen'){hideWelcome();addMsg('user',`<p>Façade ${nom}</p>`);let m=addMsg('ai',`<p><b>🏠 Façade 3D Toit rouge Marbre noir - ${nom}</b></p>`);let c=drawFacade(nom);m.querySelector('.content').appendChild(c);let b=document.createElement('button');b.className='btn b';b.textContent='📥 Télécharger Façade';b.onclick=()=>{let a=document.createElement('a');a.download=`Facade-${nom}.png`;a.href=c.toDataURL();a.click();};m.querySelector('.content').appendChild(b);}
-function ask(t){q.value=t;send();}
-function send(){let t=q.value.trim();if(!t)return;if(welcome.style.display!=='none')hideWelcome();q.value='';let low=t.toLowerCase();if(low.includes('salut')||low.includes('bonjour')){addMsg('user',`<p>${t}</p>`);addMsg('ai',`<p>Salut Balla ! 👋 Je suis AMATECHIA V17 - comme toi, comme Meta AI !<br>📐 Plans HD meublés<br>🏠 Façades toit rouge<br>Tape plan 7.5x6.5 !</p>`);return;}if(low.match(/\d+\s*x\s*\d+/)||low.includes('plan')){let m=t.match(/(\d+[.,]?\d*)\s*x\s*(\d+[.,]?\d*)/);let L=7.5,l=6.5;if(m){L=parseFloat(m[1].replace(',','.'));l=parseFloat(m[2].replace(',','.'));}showPlan(L,l,'Villa Kagbelen');if(low.includes('pack'))setTimeout(()=>showFacade('Villa Kagbelen'),700);return;}if(low.includes('facade')||low.includes('façade')||low.includes('toit')){showFacade('Villa Kagbelen');return;}if(low.includes('pack')){showPlan(7.5,6.5,'Villa Kagbelen');setTimeout(()=>showFacade('Villa Kagbelen'),700);return;}addMsg('user',`<p>${t}</p>`);addMsg('ai',`<p>Pour "${t}" tape plan 7.5x6.5 ou façade toit rouge !</p>`);}
-</script></body></html>
+<div class="top"><h2>✅ AMATECHIA V18 FINAL HD PRO - 0 GNF</h2></div>
+<div class="card">
+<b>📐 PLAN RDC 7.50x6.50m - 48.8m² - HD PRO</b><br><br>
+<img src="plan-hd.jpg" alt="Plan HD PRO 7.5x6.5">
+<br><br>
+✅ Garage 2.90x5.00 voiture argentée<br>
+✅ Bedroom 3.00x3.00 lit double<br>
+✅ Living Room 3.50x3.50 canapé L<br>
+✅ Kitchen 2.50x3.00<br>
+✅ Toilet 1.50x2.00<br>
+✅ Veranda 1.50x6.50 plantes<br><br>
+<button class="btn" onclick="window.print()">📥 Télécharger / Imprimer HD</button>
+<button class="btn" style="background:#0ea5e9;color:#fff;margin-top:8px" onclick="location.href='https://wa.me/?text=Voici votre plan 7.5x6.5 HD PRO AMATECHIA'">📲 Envoyer WhatsApp Client</button>
+</div>
+</body></html>
