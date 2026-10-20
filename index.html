@@ -2,143 +2,111 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AMATECHIA - Comme Meta AI</title>
+<title>AMATECHIA avec Clé</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui;background:#0f172a;color:white;display:flex;height:100vh}
-.sidebar{width:260px;background:#020617;border-right:1px solid #1e293b;display:flex;flex-direction:column;padding:10px}
+body{margin:0;background:#0f172a;color:white;font-family:system-ui;display:flex;height:100vh}
+.sidebar{width:260px;background:#020617;border-right:1px solid #1e293b;padding:10px;display:flex;flex-direction:column}
 .main{flex:1;display:flex;flex-direction:column}
-.header{padding:15px;background:#1e293b;border-bottom:2px solid #facc15;text-align:center}
-.chat{flex:1;overflow-y:auto;padding:15px;max-width:900px;margin:0 auto;width:100%}
-.bubble{background:#1e293b;padding:14px 16px;border-radius:16px;margin:12px 0;border:1px solid #334155;line-height:1.6;white-space:pre-wrap}
-.user{background:#facc15;color:#000;margin-left:50px;font-weight:600;border:none}
-.ai{background:#1e293b}
-.history{flex:1;overflow-y:auto;margin-top:10px}
-.h-item{padding:10px;border-radius:8px;cursor:pointer;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;background:#0f172a;border:1px solid #1e293b}
-.h-item:hover{background:#1e293b}
-.input-area{padding:12px;background:#020617;border-top:1px solid #1e293b;display:flex;gap:8px;align-items:center}
-.input-area input{flex:1;padding:14px 18px;border-radius:25px;border:none;background:#1e293b;color:white;font-size:15px;outline:none}
-.btn{background:#facc15;color:black;border:none;padding:12px 18px;border-radius:25px;font-weight:bold;cursor:pointer}
-.btn-mic{background:#22c55e;color:white;width:44px;height:44px;border-radius:50%;border:none;font-size:20px;cursor:pointer}
-img.plan{width:100%;border-radius:12px;margin-top:12px;border:2px solid #facc15}
-@media(max-width:700px){.sidebar{position:fixed;left:-300px;top:0;bottom:0;z-index:10;transition:0.3s}.sidebar.open{left:0}.main{width:100%}}
+.header{padding:12px;background:#1e293b;border-bottom:2px solid #facc15;text-align:center}
+.chat{flex:1;overflow-y:auto;padding:15px}
+.bubble{padding:12px 15px;border-radius:14px;margin:10px 0;white-space:pre-wrap;line-height:1.5;max-width:85%}
+.user{background:#facc15;color:black;margin-left:auto;font-weight:600}
+.ai{background:#1e293b;border:1px solid #334155}
+.input-area{padding:10px;background:#020617;border-top:1px solid #1e293b;display:flex;gap:6px}
+.input-area input{flex:1;padding:13px 16px;border-radius:25px;border:none;background:#1e293b;color:white}
+.btn{background:#facc15;color:black;border:none;padding:10px 16px;border-radius:20px;font-weight:bold;cursor:pointer}
+.h-item{padding:8px;background:#0f172a;margin:4px 0;border-radius:6px;font-size:12px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.key-box{background:#1e293b;padding:10px;border-radius:10px;margin-bottom:10px;border:1px dashed #facc15}
+.key-box input{width:100%;padding:8px;border-radius:6px;border:none;background:#0f172a;color:white;font-size:12px;margin-top:5px}
+img.plan{width:100%;border-radius:10px;margin-top:10px;border:2px solid #facc15}
+@media(max-width:700px){.sidebar{position:fixed;left:-300px;top:0;bottom:0;z-index:99;transition:0.3s}.sidebar.open{left:0}}
 </style>
 </head>
 <body>
-
 <div class="sidebar" id="sidebar">
+<div class="key-box">
+<b style="color:#facc15">🔑 Ta clé Groq gsk_</b>
+<small style="display:block;color:#94a3b8">Colle ta clé ici, elle reste dans ton tel</small>
+<input id="apiKey" placeholder="gsk_..." oninput="saveKey()">
+<small id="keyStatus" style="color:#22c55e"></small>
+</div>
 <button class="btn" onclick="newChat()" style="width:100%">+ Nouveau Chat</button>
-<div style="font-size:11px;color:#94a3b8;margin:12px 0 5px">HISTORIQUE - Anciennes questions</div>
-<div class="history" id="history"></div>
-<button onclick="clearHistory()" style="margin-top:10px;background:transparent;border:1px solid #334155;color:#94a3b8;padding:8px;border-radius:8px;width:100%;cursor:pointer">Effacer tout</button>
+<div style="font-size:11px;color:#94a3b8;margin:10px 0 5px">HISTORIQUE</div>
+<div id="history" style="flex:1;overflow-y:auto"></div>
+<button onclick="localStorage.clear();location.reload()" style="margin-top:10px;background:transparent;border:1px solid #334155;color:#94a3b8;padding:6px;width:100%;border-radius:6px;cursor:pointer">Effacer tout</button>
 </div>
 
 <div class="main">
 <div class="header">
 <div style="display:flex;justify-content:space-between;align-items:center">
-<button onclick="document.getElementById('sidebar').classList.toggle('open')" style="background:transparent;border:none;color:#facc15;font-size:20px">☰</button>
-<div><h3 style="color:#facc15">AMATECHIA - Comme Meta AI 🇬🇳</h3><small>Par Balla Moussa Diawara - Garde tout, fait tout</small></div>
-<button style="background:transparent;border:none;color:#facc15;font-size:20px" onclick="speechSynthesis.cancel()">🔇</button>
+<button onclick="document.getElementById('sidebar').classList.toggle('open')" style="background:none;border:none;color:#facc15;font-size:20px">☰</button>
+<div><h3 style="color:#facc15;margin:0">V2 avec Clé Groq ✅</h3><small>Comme Meta AI - Garde tout + Plans</small></div>
+<div style="width:20px"></div>
 </div>
 </div>
-
-<div class="chat" id="chat">
-<div class="bubble ai">Salut Balla ! Je suis AMATECHIA, maintenant je suis comme Meta AI ! 🌟<br><br>✅ Je garde toutes tes anciennes questions à gauche<br>✅ Je fais tout: Maths, Physique, BTP, Plans Villa, Business, Français<br>✅ Je parle et j'écoute<br>✅ J'envoie les photos des plans<br><br>Exemple: tape "plan villa 3 chambres" ou "résous x²=4" ou "dosage béton B25"<br><br>Pose ta question !</div>
-</div>
-
+<div class="chat" id="chat"><div class="bubble ai">Salut Balla ! 👋 Colle ta clé gsk_ en haut à gauche d'abord.\n\nEnsuite je serai comme Meta AI mais avec TA clé:\n✅ Maths, Physique, BTP, Latérite, Business\n✅ Je garde toutes les questions à gauche\n✅ J'envoie les photos des plans villa\n\nSi tu n'as pas de clé, va sur console.groq.com/keys</div></div>
 <div class="input-area">
-<button class="btn-mic" onclick="startVoice()">🎤</button>
-<input id="q" placeholder="Demande comme à Meta AI... ex: plan villa, cours BTP, maths..." onkeydown="if(event.key=='Enter')send()">
-<button class="btn" onclick="send()">↑</button>
+<input id="q" placeholder="Écris... ex: plan villa 3 chambres, résous x²=4" onkeydown="if(event.key=='Enter')send()">
+<button class="btn" onclick="send()">Envoyer</button>
 </div>
 </div>
 
 <script>
-let chats = JSON.parse(localStorage.getItem('amatechia_meta_like_v1')||'[]');
+let chats = JSON.parse(localStorage.getItem('amatechia_key_v')||'[]');
 let currentId = null;
 let chatDiv = document.getElementById('chat');
-let synth = window.speechSynthesis;
+function save(){localStorage.setItem('amatechia_key_v',JSON.stringify(chats))}
+function saveKey(){localStorage.setItem('groq_key',document.getElementById('apiKey').value); document.getElementById('keyStatus').textContent='Clé sauvegardée ✅';}
+document.getElementById('apiKey').value=localStorage.getItem('groq_key')||''; if(document.getElementById('apiKey').value) document.getElementById('keyStatus').textContent='Clé prête ✅';
 
-function save(){ localStorage.setItem('amatechia_meta_like_v1', JSON.stringify(chats)); }
-function newChat(){ currentId=null; chatDiv.innerHTML=`<div class="bubble ai">Nouveau chat ! Pose ta question, je garde tout comme Meta AI.</div>`; document.getElementById('sidebar').classList.remove('open'); }
-function clearHistory(){ if(confirm('Effacer tout l\'historique ?')){ chats=[]; save(); renderHistory(); newChat(); } }
-
-function renderHistory(){
- let h=document.getElementById('history');
- if(chats.length==0){ h.innerHTML='<p style="color:#555;font-size:12px">Aucune question encore</p>'; return; }
- h.innerHTML=chats.map(c=>`<div class="h-item" onclick="openChat(${c.id})">💬 ${c.title.substring(0,30)}</div>`).join('');
-}
-function openChat(id){
- currentId=id; let c=chats.find(x=>x.id==id); if(!c) return;
- chatDiv.innerHTML=c.msgs.map(m=>`<div class="bubble ${m.role=='user'?'user':'ai'}">${m.html||m.text}</div>`).join('');
- document.getElementById('sidebar').classList.remove('open'); chatDiv.scrollTop=chatDiv.scrollHeight;
-}
+function newChat(){currentId=null; chatDiv.innerHTML='<div class="bubble ai">Nouveau chat - Pose ta question !</div>'; document.getElementById('sidebar').classList.remove('open')}
+function renderHistory(){let h=document.getElementById('history'); if(chats.length==0){h.innerHTML='<small style="color:#555">Aucune question</small>';return} h.innerHTML=chats.map(c=>`<div class="h-item" onclick="openChat(${c.id})">💬 ${c.title.substring(0,28)}</div>`).join('')}
+function openChat(id){currentId=id;let c=chats.find(x=>x.id==id); chatDiv.innerHTML=c.msgs.map(m=>`<div class="bubble ${m.role}">${m.html||m.text}</div>`).join(''); document.getElementById('sidebar').classList.remove('open'); chatDiv.scrollTop=chatDiv.scrollHeight}
 
 async function send(){
  let txt=document.getElementById('q').value.trim(); if(!txt) return;
+ let key=document.getElementById('apiKey').value.trim()||localStorage.getItem('groq_key')||'';
+ if(!key){ alert('Colle d\'abord ta clé gsk_ en haut à gauche ! Va sur console.groq.com/keys'); return; }
  document.getElementById('q').value='';
- 
- if(!currentId){ currentId=Date.now(); chats.unshift({id:currentId,title:txt,msgs:[]}); }
- let cur = chats.find(c=>c.id==currentId);
- 
- // Affiche user
+ if(!currentId){currentId=Date.now(); chats.unshift({id:currentId,title:txt,msgs:[]});}
+ let cur=chats.find(c=>c.id==currentId);
  cur.msgs.push({role:'user',text:txt,html:txt});
  chatDiv.innerHTML+=`<div class="bubble user">${txt}</div>`;
- let aiBubble = document.createElement('div'); aiBubble.className='bubble ai'; aiBubble.textContent='AMATECHIA écrit... ⏳'; chatDiv.appendChild(aiBubble);
+ let aiBubble=document.createElement('div'); aiBubble.className='bubble ai'; aiBubble.textContent='AMATECHIA réfléchit...'; chatDiv.appendChild(aiBubble);
  chatDiv.scrollTop=chatDiv.scrollHeight;
 
  try{
-   let isPlan = txt.toLowerCase().match(/plan|villa|maison|bâtiment|duplex|fondation/);
-   if(isPlan){
-     let imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent('professional architectural blueprint floor plan of '+txt+', modern villa, technical drawing with dimensions, detailed') }?width=1000&height=700&nologo=true&seed=${Date.now()}`;
-     let html = `Voici ton plan demandé : <b>${txt}</b> 🏗️\n\nC'est un plan professionnel que j'ai généré pour toi. Tu peux cliquer pour télécharger.\n\nAutres idées: "plan villa 4 chambres R+1", "plan fondation", "plan latérite"<br><img class="plan" src="${imgUrl}" onclick="window.open(this.src,'_blank')">`;
-     aiBubble.innerHTML=html;
-     cur.msgs.push({role:'assistant',text:`Plan ${txt}`,html:html});
-     parler(`Voici ton plan ${txt}, je l'ai généré. Clique sur l'image pour l'agrandir.`);
-   } else {
-     // MODE COMME META AI - Gratuit, sans clé, marche toujours
-     let systemPrompt = `Tu es AMATECHIA, IA de Balla Moussa Diawara en Guinée. Tu es comme Meta AI. Tu enseignes toutes matières: Maths, Physique, Chimie, BTP, Construction, Latérite, Electricité, Français, Anglais, Business, Entrepreneuriat. Réponds en français, clair, avec exemples concrets de Guinée, étape par étape. Question: ${txt}`;
-     let res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(systemPrompt)}?model=openai`);
-     let reponse = await res.text();
-     if(!reponse || reponse.length<5) reponse = fallbackReponse(txt);
-     aiBubble.textContent=reponse;
-     cur.msgs.push({role:'assistant',text:reponse,html:reponse});
-     parler(reponse);
-   }
+  let isPlan=txt.toLowerCase().match(/plan|villa|maison|duplex|fondation/);
+  if(isPlan){
+   let img=`https://image.pollinations.ai/prompt/${encodeURIComponent('architectural blueprint plan of '+txt+', modern villa floor plan technical drawing') }?width=900&height=600&nologo=true&seed=${Date.now()}`;
+   let html=`Voici ton plan : <b>${txt}</b> 🏗️<br><img class="plan" src="${img}" onclick="window.open(this.src,'_blank')"><br>Clique l'image pour télécharger.`;
+   aiBubble.innerHTML=html; cur.msgs.push({role:'ai',text:'plan',html:html});
+  } else {
+   // MODÈLE CORRIGÉ - Plus llama-3.1-8b-instant, maintenant llama-3.3-70b-versatile
+   let res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+    method:'POST',
+    headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
+    body:JSON.stringify({
+     model:'llama-3.3-70b-versatile',
+     messages:[
+      {role:'system',content:'Tu es AMATECHIA, IA guinéenne de Balla Moussa Diawara. Tu es comme Meta AI. Tu connais tout: Maths, Physique, Chimie, BTP, Construction, Latérite, Electricité, Business, Français, Anglais. Réponds clair, court, avec exemples Guinée. Si on demande plan, dis que tu vas générer l image.'},
+      {role:'user',content:txt}
+     ],
+     temperature:0.7
+    })
+   });
+   let data=await res.json();
+   if(data.error) throw new Error(data.error.message);
+   let rep=data.choices[0].message.content;
+   aiBubble.textContent=rep; cur.msgs.push({role:'ai',text:rep,html:rep});
+   // Parle
+   let u=new SpeechSynthesisUtterance(rep.substring(0,600)); u.lang='fr-FR'; u.rate=0.9; speechSynthesis.speak(u);
+  }
  }catch(e){
-   let rep = fallbackReponse(txt);
-   aiBubble.textContent=rep;
-   cur.msgs.push({role:'assistant',text:rep,html:rep});
-   parler(rep);
+  aiBubble.innerHTML=`❌ Erreur: ${e.message}<br><br>Solution:<br>1. Vérifie ta clé commence par gsk_<br>2. Va sur console.groq.com/keys et crée une nouvelle clé<br>3. Colle la nouvelle clé en haut<br><br>Erreur détaillée: ${e.message}`;
  }
  save(); renderHistory(); chatDiv.scrollTop=chatDiv.scrollHeight;
 }
-
-function fallbackReponse(q){
- q=q.toLowerCase();
- if(q.includes('béton')||q.includes('latérite')) return `BTP Guinée - Latérite & Béton:\n- Latérite: Sol rouge, CBR>30, idéal remblai. Stabilisée à 8% ciment pour murs.\n- Béton B25: 350kg ciment, 400L sable, 800L gravier, 175L eau pour 1m3.\n- Fondation Guinée: 80cm profond minimum à cause des pluies.\n- 1 sac ciment 50kg = 0.033m3.`;
- if(q.match(/x²|maths|équation|calcul/)) return `Maths: Donne ton exo exact.\nExemple: x²=4 => x=2 ou -2\n(x+a)²=x²+2ax+a²\nSurface dalle= Lxl, Volume=Surface x épaisseur.\nJe résous tout étape par étape comme Meta AI !`;
- if(q.includes('plan')||q.includes('villa')) return `Pour les plans, tape exactement: "plan villa 3 chambres" et je t'envoie la photo direct. Je génère tous types: R+1, duplex, fondation.`;
- return `Je suis AMATECHIA comme Meta AI ! ✨\n\nJe garde toutes tes questions à gauche (historique).\nJe fais tout:\n📚 Maths, Physique, Chimie\n🏗️ BTP, Latérite, Béton, Devis, Plans\n💼 Business, Français\n\nPose une question précise: ex "dosage béton", "plan villa", "résous équation"`;
-}
-
-function parler(t){
- synth.cancel();
- let clean = t.replace(/<[^>]*>/g,'').substring(0,1000);
- let parts = clean.split(/[.!\n]+/).filter(p=>p.trim().length>3);
- let i=0;
- (function next(){
-  if(i>=parts.length) return;
-  let u=new SpeechSynthesisUtterance(parts[i++]); u.lang='fr-FR'; u.rate=0.9; u.onend=next; synth.speak(u);
- })();
-}
-function startVoice(){
- let Rec = window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!Rec){ alert('Micro non supporté sur ce navigateur, écris ta question'); return; }
- let rec=new Rec(); rec.lang='fr-FR'; rec.start();
- rec.onresult=e=>{ document.getElementById('q').value=e.results[0][0].transcript; send(); };
-}
-
 renderHistory();
 </script>
 </body>
