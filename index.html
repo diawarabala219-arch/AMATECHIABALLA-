@@ -1,65 +1,84 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMATECHIA V5</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AMATECHIA - Toutes Matières</title>
 <style>
-body{font-family:Arial;background:#f2f2f2;margin:0;padding:10px}
-.header{background:#0d47a1;color:white;padding:18px;text-align:center;border-radius:12px}
-.card{background:white;padding:14px;border-radius:12px;margin-top:10px;box-shadow:0 2px 4px #aaa}
-input{width:100%;padding:14px;border-radius:12px;border:2px solid #ddd;font-size:16px}
-button{border:none;padding:12px;border-radius:10px;color:white;font-weight:bold;cursor:pointer}
+body{font-family:Arial;background:#eef2f7;margin:0;padding:10px}
+.h{background:linear-gradient(90deg,#0d47a1,#1976d2);color:white;padding:20px;text-align:center;border-radius:14px}
+.card{background:white;padding:15px;border-radius:12px;margin-top:12px;box-shadow:0 2px 6px #bbb}
+input{width:100%;padding:14px;border-radius:10px;border:2px solid #ccc;font-size:16px;box-sizing:border-box}
+button{border:none;padding:13px;border-radius:10px;color:white;font-weight:bold;cursor:pointer}
 .b1{background:#0d47a1;width:100%;margin-top:8px;font-size:17px} .b2{background:#2e7d32} .b3{background:#c62828;padding:6px 10px}
-.msg{padding:12px;border-radius:10px;margin:10px 0;word-break:break-word}
-.user{background:#e3f2fd} .ai{background:#f5f5f5;border:1px solid #ddd}
+.msg{padding:12px;border-radius:10px;margin:10px 0}
+.u{background:#e3f2fd} .a{background:#f9f9f9;border:1px solid #ddd}
 img.plan{width:100%;border-radius:10px;margin-top:10px;border:2px solid #0d47a1}
+.tag{display:inline-block;background:#0d47a1;color:white;padding:3px 8px;border-radius:12px;font-size:11px;margin:2px}
 </style>
 </head>
 <body>
-<div class="header"><h2>AMATECHIA 🇬🇳 V5 INTELLIGENTE</h2><small>Je réponds à tout + J'envoie les plans + Je lis tout</small></div>
-<div class="card"><input id="q" placeholder="Ex: Envoie moi plan villa 3 chambres" onkeydown="if(event.key=='Enter')go()"><button class="b1" onclick="go()">Envoyer</button></div>
-<div class="card" id="chat">Chargement...</div>
-<div class="card"><b>🔊 Voix:</b> <span id="etat">Prête</span><br><button class="b2" onclick="speechSynthesis.cancel()">⏹️ STOP</button> Vitesse: <input type="range" id="vit" min="0.6" max="1.1" step="0.1" value="0.9" style="width:100px" oninput="vtxt.textContent=this.value"> <span id="vtxt">0.9</span></div>
+<div class="h"><h2>AMATECHIA 🇬🇳 PRO</h2><div><span class="tag">BTP</span><span class="tag">Architecture</span><span class="tag">Génie Civil</span><span class="tag">Électricité</span><span class="tag">Informatique</span><span class="tag">Maths</span><span class="tag">Monde</span></div><small>Toutes matières + Plans + Lecture auto</small></div>
+<div class="card"><input id="q" placeholder="Ex: plan villa 3 chambres, cours électricité, formule béton..." onkeydown="if(event.key=='Enter')go()"><button class="b1" onclick="go()">Envoyer</button></div>
+<div class="card" id="chat">...</div>
+<div class="card"><b>🔊</b> <span id="etat">Prête</span> <button class="b2" onclick="speechSynthesis.cancel();document.getElementById('etat').textContent='Stop'">STOP</button> Vitesse <input type="range" id="vit" min="0.5" max="1.3" value="0.9" style="width:80px" oninput="vtxt.innerText=this.value"><span id="vtxt">0.9</span></div>
 
 <script>
-let DATA = JSON.parse(localStorage.getItem('amatechia_v5')||'[]');
-let synth = window.speechSynthesis;
-function save(){localStorage.setItem('amatechia_v5', JSON.stringify(DATA));}
+let DATA=JSON.parse(localStorage.getItem('amatechia_v6')||'[]');
+let synth=window.speechSynthesis;
+const save=()=>localStorage.setItem('amatechia_v6',JSON.stringify(DATA));
 
-function getReponse(question){
- q=question.toLowerCase();
- if(q.includes('plan') || q.includes('villa') || q.includes('maison') || q.includes('architecture')){
-   return {text:`Voici le plan que tu as demandé : "${question}". J'ai généré un plan d'architecte 3D pour toi. Tu peux le télécharger. Si tu veux un autre style dis moi : villa moderne, villa 2 chambres, villa duplex.`, isPlan:true, prompt: question};
+function getRep(quest){
+ let q=quest.toLowerCase();
+ // 1. PLANS - Génération image
+ if(q.match(/plan|villa|maison|batiment|bâtiment|duplex|appartement/)){
+   let prompt = quest;
+   return {t:`Excellent ! Tu as demandé : "${quest}". Voici un plan professionnel généré pour toi. C'est un plan d'architecte avec cotations. Tu peux le télécharger en cliquant dessus. Si tu veux autre chose dis : plan villa 4 chambres, plan R+1, plan fondation.`, plan:true, prompt:prompt};
  }
- if(q.includes('informatique')) return {text:`L'informatique c'est la science du traitement automatique de l'information par un ordinateur. Elle comprend : 1. Le matériel (hardware), 2. Les logiciels (software), 3. La programmation, 4. Les réseaux. C'est grâce à elle qu'on a AMATECHIA, Facebook, WhatsApp.`, isPlan:false};
- if(q.includes('programmation')||q.includes('code')) return {text:`La programmation c'est écrire des instructions qu'un ordinateur va exécuter. Exemple : HTML pour les sites, Python pour l'IA, Java pour les applis Android. Tu fais déjà de la programmation avec AMATECHIA sur GitHub !`, isPlan:false};
- if(q.includes('guinée')||q.includes('conakry')) return {text:`La Guinée est un pays d'Afrique de l'Ouest, capitale Conakry. Connue pour ses ressources minières, sa culture riche. Kagbelen où tu habites est un quartier de Dubréka près de Conakry.`, isPlan:false};
- if(q.includes('salut')||q.includes('bonjour')) return {text:`Salut Balla ! 👋 C'est AMATECHIA V5. Maintenant je suis vraiment intelligente. Demande-moi n'importe quoi : un cours, une définition, ou même "envoie moi plan villa" et je t'envoie la photo du plan directement !`, isPlan:false};
- return {text:`Bonne question : "${question}". Je suis AMATECHIA, ton IA guinéenne. Pour cette question, voici une réponse complète : ${question} est un sujet intéressant en technologie. Si tu veux une image ou un plan, dis "envoie moi image de ..." ou "plan de ...". Je garde tout ton historique.`, isPlan:false};
+ // MATIÈRES PROFESSIONNELLES
+ if(q.match(/béton|dosage|b25|b30|fondation/)) return {t:`DOSAGE BÉTON (Matière Pro BTP):\n- Béton B25 (fondation): 350kg ciment, 0.5m3 sable, 0.8m3 gravier, 175L eau.\n- Béton B15 (propreté): 150kg ciment.\n- 1m3 béton = 7 sacs de 50kg pour B25.\n- Cure: arroser 7 jours.\nFormule: Résistance = Ciment/Eau.`};
+ if(q.match(/électricité|electrique|branchement|cable|disjoncteur/)) return {t:`ÉLECTRICITÉ BÂTIMENT (Pro):\n- Section câble: 1.5mm² pour éclairage, 2.5mm² pour prises, 6mm² pour cuisinière.\n- Disjoncteur: 10A éclairage, 16A prises, 32A clim.\n- Hauteur prises: 30cm du sol, interrupteurs 1.20m.\n- Terre obligatoire <100 ohms.\n- Norme: Bleu=Neutre, Marron=Phase, Vert/Jaune=Terre.`};
+ if(q.match(/plomberie|tuyau|evacuation|fuite/)) return {t:`PLOMBERIE (Pro):\n- Tuyau PER 12/16 pour distribution, PVC 100 pour évacuation.\n- Pente évacuation: 2cm par mètre minimum.\n- Pression test: 10 bars pendant 1h.\n- Chauffe-eau: Groupe sécurité + vase expansion.`};
+ if(q.match(/carrelage|quantité|m2/)) return {t:`CARRELAGE (Pro):\n- Quantité = Surface / surface carreau + 10% perte.\n- Ex: 20m2 avec carreau 40x40 (0.16m2) = 20/0.16=125 carreaux + 13 = 138 carreaux.\n- Mortier colle: 4kg/m2.`};
+ if(q.match(/ferraillage|acier|semelle|poteau/)) return {t:`FERRAILLAGE (Génie Civil):\n- Semelle isolée: 6HA12 + cadre HA6 tous les 15cm.\n- Poteau 20x20: 4HA12 + cadres HA6 tous les 20cm.\n- Enrobage béton: 3cm minimum pour protéger acier.\n- Recouvrement: 50x diamètre.`};
+ if(q.match(/devis|prix|coût|metre/)) return {t:`ESTIMATION PRIX GUINÉE (BTP):\n- Fondation: 150 000 GNF/ml\n- Élévation brique 15: 80 000 GNF/m2\n- Dalle pleine 12cm: 250 000 GNF/m2\n- Carrelage pose: 40 000 GNF/m2\n- Électricité complète: 35 000 GNF/m2. C'est estimatif Conakry 2026.`};
+ // MATIÈRES MONDIALES
+ if(q.match(/informatique/)) return {t:`INFORMATIQUE: C'est le traitement automatique de l'info. 3 parties: Matériel (PC), Logiciel (Windows, App), Réseau (Internet). Toi tu fais du développement web avec GitHub.`};
+ if(q.match(/math|calcul|surface|volume/)) return {t:`MATHS BTP: Surface rectangle = L x l. Volume béton = Surface x épaisseur. Ex: Dalle 10m x 8m x 0.12m = 9.6 m3 béton. Périmètre = 2*(L+l).`};
+ if(q.match(/guinée|conakry|kagbelen/)) return {t:`GUINÉE: Pays Afrique Ouest, 14M habitants, capitale Conakry. Richesses: bauxite, or. Kagbelen est dans Dubréka, zone en plein développement immobilier, idéal pour tes plans villa !`};
+ if(q.match(/salut|bonjour/)) return {t:`Salut Balla ! 👋 Je suis AMATECHIA PRO V6. Maintenant je connais TOUTES les matières: BTP, Architecture, Génie Civil, Électricité, Plomberie, Informatique, Maths, et Monde. Demande "plan villa" et je t'envoie la photo direct !`};
+
+ return {t:`Très bonne question sur "${quest}".\n\nEn tant qu'AMATECHIA PRO, je couvre:\n- BTP: béton, ferraillage, devis\n- Architecture: plans villa, R+1\n- Électricité, Plomberie\n- Informatique, Maths\n- Culture générale mondiale\n\nSois plus précis, exemple: "dosage béton B25" ou "plan maison 3 chambres" ou "c'est quoi la plomberie".`};
 }
 
 function go(){
- let val=document.getElementById('q').value.trim(); if(!val) return;
+ let v=document.getElementById('q').value.trim(); if(!v) return;
  document.getElementById('q').value='';
- let rep=getReponse(val);
- DATA.unshift({q:val, r:rep.text, isPlan:rep.isPlan, prompt:rep.prompt||val, date:new Date().toLocaleTimeString()});
- save(); afficher(); parler(rep.text);
+ let r=getRep(v);
+ DATA.unshift({q:v, r:r.t, plan:r.plan||false, prompt:r.prompt||v, date:new Date().toLocaleString()});
+ save(); afficher(); parler(r.t);
 }
 
 function afficher(){
  let c=document.getElementById('chat');
- if(DATA.length==0){c.innerHTML='Aucune question';return;}
+ if(DATA.length==0){c.innerHTML='<p style="color:#888;text-align:center">Pose ta première question ci-dessus</p>';return;}
  c.innerHTML=DATA.map((x,i)=>{
-  let imgHtml='';
-  if(x.isPlan){
-    let url=`https://image.pollinations.ai/prompt/${encodeURIComponent('architectural plan of '+x.prompt+', blueprint, modern villa floor plan, technical drawing') }?width=800&height=600&nologo=true`;
-    imgHtml=`<img class="plan" src="${url}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Plan+en+cours+de+generation'"><br><a href="${url}" target="_blank"><button class="b1" style="background:#333">📥 Télécharger le plan</button></a>`;
+  let img='';
+  if(x.plan){
+    let u=`https://image.pollinations.ai/prompt/${encodeURIComponent('professional architectural blueprint plan of '+x.prompt+', floor plan with dimensions, technical drawing') }?width=900&height=600&nologo=true&seed=${i}`;
+    img=`<img class="plan" src="${u}" onclick="window.open(this.src,'_blank')" title="Clique pour agrandir"><br><small>Clique l'image pour agrandir / télécharger</small>`;
   }
-  return `<div class="msg user"><b>Toi:</b> ${x.q} <br><small>${x.date}</small></div><div class="msg ai"><b>AMATECHIA:</b> ${x.r} ${imgHtml} <br><button class="b2" onclick="parler(\`${x.r.replace(/`/g,'').replace(/'/g,'')}\`)">🔊 Lire</button> <button class="b3" onclick="DATA.splice(${i},1);save();afficher()">X</button></div>`;
+  return `<div class="msg u"><b>Toi:</b> ${x.q}<br><small>${x.date}</small></div><div class="msg a"><b>AMATECHIA PRO:</b><br><div style="white-space:pre-wrap">${x.r}</div>${img}<br><button class="b2" onclick="parler(\`${x.r.replace(/[`']/g,'')}\`)">🔊 Lire</button> <button class="b3" onclick="DATA.splice(${i},1);save();afficher()">X</button></div>`;
  }).join('');
 }
 
 function parler(txt){
  synth.cancel();
- let parts = txt.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[txt];
- let queue=[]; parts.forEach(p=>{ if(p.length>90){ queue.push(...(p.match(/.{1,75}(\s|$)/g)||[p])); } else
+ let parts=txt.split(/[\n.!?]+/).filter(p=>p.trim().length>3);
+ let queue=[]; parts.forEach(p=>{ if(p.length>100) queue.push(...(p.match(/.{1,80}(\s|$)/g)||[p])); else queue.push(p); });
+ let idx=0; document.getElementById('etat').textContent='Lecture...';
+ (function next(){ if(idx>=queue.length){document.getElementById('etat').textContent='Fini ✅';return;} let u=new SpeechSynthesisUtterance(queue[idx++]); u.lang='fr-FR'; u.rate=parseFloat(document.getElementById('vit').value); u.onend=next; synth.speak(u); })();
+}
+afficher();
+</script>
+</body>
+</html>
