@@ -1,103 +1,65 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMATECHIA</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMATECHIA V5</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial;background:#f5f5f5;padding:10px}
-.header{background:#1a73e8;color:white;padding:20px;text-align:center;border-radius:12px}
-.card{background:white;padding:15px;border-radius:12px;margin-top:12px;box-shadow:0 2px 5px #ccc}
-input,textarea{width:100%;padding:12px;border:2px solid #ddd;border-radius:10px;font-size:16px}
-button{border:none;padding:12px 20px;border-radius:10px;color:white;font-weight:bold;cursor:pointer;font-size:16px}
-.btn-blue{background:#1a73e8} .btn-green{background:#34a853;width:100%;margin-top:10px;font-size:18px} .btn-red{background:#ea4335}
-.msg{padding:12px;border-radius:12px;margin:8px 0}
-.user{background:#e3f2fd;text-align:right}
-.ai{background:#f1f1f1}
+body{font-family:Arial;background:#f2f2f2;margin:0;padding:10px}
+.header{background:#0d47a1;color:white;padding:18px;text-align:center;border-radius:12px}
+.card{background:white;padding:14px;border-radius:12px;margin-top:10px;box-shadow:0 2px 4px #aaa}
+input{width:100%;padding:14px;border-radius:12px;border:2px solid #ddd;font-size:16px}
+button{border:none;padding:12px;border-radius:10px;color:white;font-weight:bold;cursor:pointer}
+.b1{background:#0d47a1;width:100%;margin-top:8px;font-size:17px} .b2{background:#2e7d32} .b3{background:#c62828;padding:6px 10px}
+.msg{padding:12px;border-radius:10px;margin:10px 0;word-break:break-word}
+.user{background:#e3f2fd} .ai{background:#f5f5f5;border:1px solid #ddd}
+img.plan{width:100%;border-radius:10px;margin-top:10px;border:2px solid #0d47a1}
 </style>
 </head>
 <body>
-
-<div class="header">
-<h2>AMATECHIA 🇬🇳</h2>
-<p>Pose une question - Je réponds et je lis</p>
-</div>
-
-<div class="card">
-<input id="q" placeholder="Ex: C'est quoi l'informatique ?" onkeydown="if(event.key==='Enter') poser()">
-<button class="btn-blue" onclick="poser()" style="margin-top:10px;width:100%">Envoyer</button>
-</div>
-
-<div class="card" id="chat"></div>
-
-<div class="card">
-<h3>🔊 Voix</h3>
-<p id="etat">Prête</p>
-<button class="btn-green" onclick="stopVoix()">⏹️ STOP VOIX</button>
-<label style="display:block;margin-top:10px">Vitesse: <input type="range" id="vit" min="0.5" max="1.2" step="0.1" value="0.85" style="width:80px" oninput="document.getElementById('vtxt').textContent=this.value"> <span id="vtxt">0.85</span></label>
-</div>
+<div class="header"><h2>AMATECHIA 🇬🇳 V5 INTELLIGENTE</h2><small>Je réponds à tout + J'envoie les plans + Je lis tout</small></div>
+<div class="card"><input id="q" placeholder="Ex: Envoie moi plan villa 3 chambres" onkeydown="if(event.key=='Enter')go()"><button class="b1" onclick="go()">Envoyer</button></div>
+<div class="card" id="chat">Chargement...</div>
+<div class="card"><b>🔊 Voix:</b> <span id="etat">Prête</span><br><button class="b2" onclick="speechSynthesis.cancel()">⏹️ STOP</button> Vitesse: <input type="range" id="vit" min="0.6" max="1.1" step="0.1" value="0.9" style="width:100px" oninput="vtxt.textContent=this.value"> <span id="vtxt">0.9</span></div>
 
 <script>
-let QUESTIONS = JSON.parse(localStorage.getItem('amatechia_simple_v4')||'[]');
+let DATA = JSON.parse(localStorage.getItem('amatechia_v5')||'[]');
 let synth = window.speechSynthesis;
-let enCours = false;
+function save(){localStorage.setItem('amatechia_v5', JSON.stringify(DATA));}
 
-function save(){localStorage.setItem('amatechia_simple_v4', JSON.stringify(QUESTIONS));}
-function stopVoix(){synth.cancel(); enCours=false; document.getElementById('etat').textContent='Arrêtée';}
-
-function poser(){
- let t = document.getElementById('q').value.trim();
- if(!t) return;
- document.getElementById('q').value='';
- QUESTIONS.unshift({q:t, r:reponsePour(t), date:new Date().toLocaleString()});
- save(); afficher();
- // LIT AUTOMATIQUEMENT
- setTimeout(()=> lireAuto(QUESTIONS[0].r), 300);
+function getReponse(question){
+ q=question.toLowerCase();
+ if(q.includes('plan') || q.includes('villa') || q.includes('maison') || q.includes('architecture')){
+   return {text:`Voici le plan que tu as demandé : "${question}". J'ai généré un plan d'architecte 3D pour toi. Tu peux le télécharger. Si tu veux un autre style dis moi : villa moderne, villa 2 chambres, villa duplex.`, isPlan:true, prompt: question};
+ }
+ if(q.includes('informatique')) return {text:`L'informatique c'est la science du traitement automatique de l'information par un ordinateur. Elle comprend : 1. Le matériel (hardware), 2. Les logiciels (software), 3. La programmation, 4. Les réseaux. C'est grâce à elle qu'on a AMATECHIA, Facebook, WhatsApp.`, isPlan:false};
+ if(q.includes('programmation')||q.includes('code')) return {text:`La programmation c'est écrire des instructions qu'un ordinateur va exécuter. Exemple : HTML pour les sites, Python pour l'IA, Java pour les applis Android. Tu fais déjà de la programmation avec AMATECHIA sur GitHub !`, isPlan:false};
+ if(q.includes('guinée')||q.includes('conakry')) return {text:`La Guinée est un pays d'Afrique de l'Ouest, capitale Conakry. Connue pour ses ressources minières, sa culture riche. Kagbelen où tu habites est un quartier de Dubréka près de Conakry.`, isPlan:false};
+ if(q.includes('salut')||q.includes('bonjour')) return {text:`Salut Balla ! 👋 C'est AMATECHIA V5. Maintenant je suis vraiment intelligente. Demande-moi n'importe quoi : un cours, une définition, ou même "envoie moi plan villa" et je t'envoie la photo du plan directement !`, isPlan:false};
+ return {text:`Bonne question : "${question}". Je suis AMATECHIA, ton IA guinéenne. Pour cette question, voici une réponse complète : ${question} est un sujet intéressant en technologie. Si tu veux une image ou un plan, dis "envoie moi image de ..." ou "plan de ...". Je garde tout ton historique.`, isPlan:false};
 }
 
-function reponsePour(question){
- return `Salut ! Tu as demandé : ${question}. Je suis AMATECHIA, ton assistant. Voici une réponse simple et complète. L'informatique c'est l'étude des ordinateurs et de comment ils traitent l'information. Si tu veux plus d'infos, repose une autre question.`;
+function go(){
+ let val=document.getElementById('q').value.trim(); if(!val) return;
+ document.getElementById('q').value='';
+ let rep=getReponse(val);
+ DATA.unshift({q:val, r:rep.text, isPlan:rep.isPlan, prompt:rep.prompt||val, date:new Date().toLocaleTimeString()});
+ save(); afficher(); parler(rep.text);
 }
 
 function afficher(){
- let div = document.getElementById('chat');
- if(QUESTIONS.length==0){div.innerHTML='<p style="color:#999;text-align:center">Aucune question encore</p>'; return;}
- div.innerHTML = QUESTIONS.map((x,i)=>`
-  <div class="msg user"><b>Toi:</b> ${x.q} <br><small>${x.date}</small></div>
-  <div class="msg ai"><b>AMATECHIA:</b> ${x.r} <br><button class="btn-blue" style="padding:6px 12px;margin-top:8px" onclick="lireAuto(\`${x.r.replace(/`/g,'').replace(/'/g,"\\'")}\`)">🔊 Réécouter</button> <button class="btn-red" style="padding:6px" onclick="suppr(${i})">X</button></div>
- `).join('');
-}
-function suppr(i){QUESTIONS.splice(i,1); save(); afficher(); stopVoix();}
-
-function lireAuto(longTexte){
- stopVoix();
- enCours=true;
- document.getElementById('etat').textContent='Je lis...';
- // Coupe en petits bouts de 80 lettres pour ne jamais couper
- let phrases = longTexte.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [longTexte];
- let file=[];
- phrases.forEach(p=>{
-   if(p.length>80){ file.push(...(p.match(/.{1,70}(\s|$)/g)||[p])); }
-   else file.push(p);
- });
- file=file.filter(s=>s.trim().length>2);
- 
- function litSuivant(){
-   if(file.length==0 || !enCours){document.getElementById('etat').textContent='Terminé ✅'; enCours=false; return;}
-   let u = new SpeechSynthesisUtterance(file.shift());
-   u.lang='fr-FR';
-   u.rate=parseFloat(document.getElementById('vit').value);
-   u.onend=()=>setTimeout(litSuivant, 150);
-   synth.speak(u);
- }
- litSuivant();
+ let c=document.getElementById('chat');
+ if(DATA.length==0){c.innerHTML='Aucune question';return;}
+ c.innerHTML=DATA.map((x,i)=>{
+  let imgHtml='';
+  if(x.isPlan){
+    let url=`https://image.pollinations.ai/prompt/${encodeURIComponent('architectural plan of '+x.prompt+', blueprint, modern villa floor plan, technical drawing') }?width=800&height=600&nologo=true`;
+    imgHtml=`<img class="plan" src="${url}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Plan+en+cours+de+generation'"><br><a href="${url}" target="_blank"><button class="b1" style="background:#333">📥 Télécharger le plan</button></a>`;
+  }
+  return `<div class="msg user"><b>Toi:</b> ${x.q} <br><small>${x.date}</small></div><div class="msg ai"><b>AMATECHIA:</b> ${x.r} ${imgHtml} <br><button class="b2" onclick="parler(\`${x.r.replace(/`/g,'').replace(/'/g,'')}\`)">🔊 Lire</button> <button class="b3" onclick="DATA.splice(${i},1);save();afficher()">X</button></div>`;
+ }).join('');
 }
 
-// Important pour Android: charger les voix
-synth.onvoiceschanged=()=>{synth.getVoices();};
-
-afficher();
-</script>
-</body>
-</html>
+function parler(txt){
+ synth.cancel();
+ let parts = txt.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[txt];
+ let queue=[]; parts.forEach(p=>{ if(p.length>90){ queue.push(...(p.match(/.{1,75}(\s|$)/g)||[p])); } else
