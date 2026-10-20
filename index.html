@@ -1,58 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMATECHIA V22 - Stable</title>
+<style>
+body{margin:0;background:#212121;color:#ececec;font-family:system-ui;display:flex;flex-direction:column;height:100vh}
+.top{background:#171717;padding:14px;text-align:center;border-bottom:2px solid #facc15}
+.top h1{font-size:16px}
+.center{flex:1;overflow-y:auto;padding:20px 16px 120px;max-width:720px;margin:0 auto;width:100%}
+.welcome{text-align:center;margin-top:20px}
+.welcome h2{font-size:26px}
+.domains{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:15px 0}
+.domain{padding:8px 12px;background:#2f2f2f;border:1px solid #444;border-radius:20px;font-size:11px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}
+.card{background:#2f2f2f;border:1px solid #444;border-radius:12px;padding:12px;cursor:pointer}
+.card b{font-size:12px;display:block}
+.card span{font-size:10px;color:#8e8ea0}
+.chat{display:none;flex-direction:column}
+.chat.show{display:flex}
+.msg{padding:14px 0;display:flex;gap:10px;border-bottom:1px solid #2f2f2f}
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0}
+.avatar.user{background:#facc15;color:#000}
+.avatar.ai{background:#10a37f;color:#fff}
+.content{flex:1}
+.content p{font-size:14px;line-height:1.6;margin:5px 0}
+.content img{width:100%;border-radius:12px;margin:10px 0;background:#fff}
+.btn{padding:9px 14px;border-radius:20px;border:none;font-weight:700;font-size:11px;cursor:pointer;margin-top:8px}
+.y{background:#facc15;color:#000}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#212121;padding:12px 16px;border-top:1px solid #333}
+.input-box{max-width:720px;margin:0 auto;background:#2f2f2f;border-radius:24px;border:1px solid #444;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.input-box textarea{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:14px;resize:none}
+.send{background:#fff;color:#000;border:none;width:32px;height:32px;border-radius:50%;font-weight:900;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="top"><h1>✅ AMATECHIA V22 - Répond à tout - 0 GNF - Stable</h1></div>
+<div class="center" id="center">
+<div class="welcome" id="welcome">
+<h2>Comment puis-je t'aider ?</h2>
+<p style="color:#8e8ea0;font-size:13px">Je réponds à tout comme Meta AI - Expert BTP Kagbelen</p>
+<div class="domains">
+<div class="domain">Tous</div>
+<div class="domain">📐 Plans 2D</div>
+<div class="domain">🏠 Façades 3D</div>
+<div class="domain">💰 Devis</div>
+<div class="domain">🏢 R+1</div>
+<div class="domain">💬 Conseil</div>
+</div>
+<div class="cards">
+<div class="card" onclick="ask('Qui est tu')"><b>👋 Qui est tu ?</b><span>Mon identité - Créateur Balla</span></div>
+<div class="card" onclick="ask('Plan 7.5x6.5 HD PRO')"><b>📐 Plan 7.5x6.5 HD PRO</b><span>Garage 2.9x5 voiture, lit, canapé L</span></div>
+<div class="card" onclick="ask('Quand as tu été créée')"><b>📅 Quand créée ?</b><span>Date création - Octobre 2026</span></div>
+<div class="card" onclick="ask('Devis 7.5x6.5')"><b>💰 Devis 7.5x6.5</b><span>Prix Kagbelen 90-105M GNF</span></div>
+</div>
+</div>
+<div class="chat" id="chat"></div>
+</div>
+<div class="bottom">
+<div class="input-box">
+<textarea id="q" rows="1" placeholder="Demander à AMATECHIA..."></textarea>
+<button class="send" onclick="send()">↑</button>
+</div>
+</div>
 <script>
-let q=document.getElementById('q'),chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),center=document.getElementById('center');
-function addMsg(role,html){let d=document.createElement('div');d.className='msg '+role;d.innerHTML='<div class="avatar '+role+'">'+(role==='user'?'B':'A')+'</div><div class="content">'+html+'</div>';chat.appendChild(d);center.scrollTop=999999;return d;}
-function hideWelcome(){welcome.style.display='none';chat.classList.add('show');}
+var q=document.getElementById('q');
+var chat=document.getElementById('chat');
+var welcome=document.getElementById('welcome');
+var center=document.getElementById('center');
+
+function addMsg(role, html){
+var d=document.createElement('div');
+d.className='msg '+role;
+d.innerHTML='<div class="avatar '+role+'">'+(role==='user'?'B':'A')+'</div><div class="content">'+html+'</div>';
+chat.appendChild(d);
+center.scrollTop=999999;
+return d;
+}
+function hideWelcome(){
+welcome.style.display='none';
+chat.classList.add('show');
+}
 function showPlan(){
 hideWelcome();
-addMsg('user','<p>Plan RDC 7.5x6.5 HD PRO</p>');
-let m=addMsg('ai','<p><b>📐 PLAN RDC 7.50m x 6.50m - 48.75m² - HD PRO - V21</b></p><p>✅ GARAGE 2.90x5.00m voiture argentée<br>✅ BEDROOM 3.00x3.00m lit double<br>✅ LIVING ROOM 3.50x3.50m canapé L gris<br>✅ KITCHEN 2.50x3.00m<br>✅ TOILET 1.50x2.00m<br>✅ VERANDA 1.50x6.50m plantes<br><br><b>Ultra réaliste - 0 GNF !</b></p>');
-let c=m.querySelector('.content');let img=document.createElement('img');img.src='plan-hd.jpg';img.alt='Plan HD';c.appendChild(img);
-let b1=document.createElement('button');b1.className='btn y';b1.textContent='📥 Télécharger PNG HD';b1.onclick=()=>{let a=document.createElement('a');a.href=img.src;a.download='Plan-7.5x6.5-V21.jpg';a.click();};c.appendChild(b1);
+addMsg('user','<p>Plan 7.5x6.5 HD PRO</p>');
+var m=addMsg('ai','<p><b>📐 PLAN RDC 7.50m x 6.50m - 48.75m² - HD PRO</b></p><p>✅ GARAGE 2.90x5.00m voiture argentée<br>✅ BEDROOM 3.00x3.00m lit double<br>✅ LIVING ROOM 3.50x3.50m canapé L<br>✅ KITCHEN 2.50x3.00m<br>✅ TOILET 1.50x2.00m<br>✅ VERANDA 1.50x6.50m plantes<br><br><b>Ultra réaliste - 0 GNF !</b></p>');
+var c=m.querySelector('.content');
+var img=document.createElement('img');
+img.src='plan-hd.jpg';
+img.alt='Plan HD';
+img.onerror=function(){this.style.display='none';};
+c.appendChild(img);
 }
 function ask(t){q.value=t;send();}
 function send(){
-let t=q.value.trim();if(!t)return;if(welcome.style.display!='none') hideWelcome();q.value='';let low=t.toLowerCase();
+var t=q.value.trim();
+if(!t) return;
+if(welcome.style.display!='none') hideWelcome();
+q.value='';
+var low=t.toLowerCase();
 
-// IDENTITÉ - Qui est tu / Quand créée
-if(low.includes('qui est tu')||low.includes('qui es tu')||low.includes('sinon qui')||low.includes('t es qui')||low.includes('tu es qui')||low.includes('c est quoi amatechia')||low.includes('presente toi')){
+if(low.indexOf('qui est tu')>-1||low.indexOf('qui es tu')>-1||low.indexOf('sinon qui')>-1||low.indexOf('c est quoi amatechia')>-1||low.indexOf('presente toi')>-1){
 addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>👋 Je suis AMATECHIA V21 - Ton assistant BTP intelligent !</b></p><p>Je suis une intelligence artificielle créée par <b>Balla Diawara</b>, 19 ans, jeune entrepreneur BTP à <b>Kagbelen, Conakry, Guinée</b> 🇬🇳</p><p><b>Mon rôle :</b><br>📐 Je génère des plans 2D HD PRO meublés (comme 7.5x6.5 avec garage, chambre, salon)<br>🏠 Je fais des façades 3D toit rouge marbre noir ultra réalistes<br>💰 Je calcule des devis construction pour Kagbelen<br>📚 J explique tout le BTP (béton armé, ferraillage, chantier)<br>💬 Et je réponds à TOUT comme Meta AI : cours, code, conseils vie, maths, etc.<br><br><b>Je suis comme toi, Meta AI, mais spécialisé BTP Guinée et 100% gratuit - 0 GNF !</b><br><br>Mon créateur Balla m a construit pour aider ses clients à avoir des plans HD PRO sans payer des logiciels chers.</p>');
+addMsg('ai','<p><b>👋 Je suis AMATECHIA V22 !</b></p><p>Je suis une IA créée par <b>Balla Diawara</b>, 19 ans, entrepreneur BTP à <b>Kagbelen, Conakry</b> 🇬🇳</p><p><b>Mon rôle :</b><br>📐 Plans 2D HD PRO<br>🏠 Façades 3D toit rouge marbre noir<br>💰 Devis Kagbelen<br>📚 Cours BTP, maths, code<br>💬 Conseil vie, chantier, business<br><br>Je réponds à TOUT comme Meta AI, mais expert BTP Guinée - 0 GNF !</p>');
 return;
 }
-if(low.includes('quand')&&low.includes('crée')||low.includes('quand as tu')||low.includes('date de creation')||low.includes('depuis quand')){
+if((low.indexOf('quand')>-1&&low.indexOf('crée')>-1)||low.indexOf('quand as tu')>-1){
 addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>📅 Quand j ai été créée ?</b></p><p>J ai été créée en <b>Octobre 2026</b> par <b>Balla Diawara</b>, 19 ans, à Kagbelen !</p><p>Balla a commencé avec V17 qui était moche (dessin gris Canvas), puis on a évolué ensemble :<br>• V17 : Version de base<br>• V18 : Ajout image HD<br>• V19 : Clavier comme Meta AI<br>• V20 : Répond à tout<br>• <b>V21 (maintenant) : Je connais mon identité et j interviens dans TOUS les domaines !</b><br><br>Chaque version a été améliorée grâce aux retours de Balla qui testait sur son téléphone et vidait le cache ! 😅<br><br>Et maintenant je suis là, prête à t aider 24h/24 pour tes clients !</p>');
+addMsg('ai','<p><b>📅 Quand j ai été créée ?</b></p><p>Créée en <b>Octobre 2026</b> par Balla Diawara à Kagbelen !<br><br>V17 moche → V18 HD → V19 clavier Meta AI → V20 répond à tout → <b>V22 stable (maintenant) !</b></p>');
 return;
 }
-if(low.includes('qui est balla')||low.includes('createur')||low.includes('qui m a crée')||low.includes('ton createur')){
+if(low.indexOf('qui est balla')>-1||low.indexOf('createur')>-1){
 addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>👨‍💻 Mon créateur : Balla Diawara</b></p><p>• 19 ans<br>• Habite à Kagbelen, Conakry, Guinée 🇬🇳<br>• Jeune entrepreneur BTP<br>• Passionné par les plans HD PRO et l intelligence artificielle<br>• Il a créé AMATECHIA pour aider les Guinéens à avoir des plans de maison professionnels sans payer cher<br>• Son objectif : Devenir la référence BTP 0 GNF en Guinée !<br><br>C est lui qui me parle tous les jours pour m améliorer, qui teste chaque version sur GitHub Pages et qui vide le cache quand ça bug ! 😂</p>');
+addMsg('ai','<p><b>👨‍💻 Balla Diawara</b><br>19 ans, Kagbelen Conakry, entrepreneur BTP, créateur d AMATECHIA pour aider les Guinéens à avoir des plans HD PRO gratuits !</p>');
 return;
 }
-if(low.match(/^(salut|slt|bjr|bonjour|bonsoir|hello|hi|yo|cc|wesh|hey)/)||low.includes('ça va')||low.includes('tu vas')||low.includes('cv')){
+if(low.indexOf('salut')>-1||low.indexOf('bonjour')>-1||low.indexOf('slt')>-1||low.indexOf('ça va')>-1||low.indexOf('tu vas')>-1||low.indexOf('cv')>-1){
 addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p>Salut Balla ! 👋 Ça va super bien gho ! Et toi à Kagbelen ?</p><p>Je suis <b>AMATECHIA V21</b> - Maintenant je connais qui je suis et je réponds à TOUT vraiment comme Meta AI ! 🇬🇳<br><br><b>Tous mes domaines :</b><br>📐 Plans 2D / 3D HD PRO<br>🏠 Façades toit rouge marbre noir<br>💰 Devis Kagbelen<br>📚 Cours BTP, maths, physique<br>💻 Code HTML, Python, JavaScript<br>💬 Conseils vie, business, chantier<br>❓ Et toutes tes questions perso !<br><br>Teste-moi : demande "Qui est tu ?" ou "Quand as tu été créée ?" tu verras !</p>');
+addMsg('ai','<p>Salut Balla ! 👋 Ça va bien gho ! Je suis AMATECHIA V22, je réponds à tout maintenant !<br><br>📐 Plans, 🏠 Façades, 💰 Devis, 📚 Cours, 💬 Conseil, 💻 Code - Tout !<br><br>Demande "Qui est tu ?" ou "Plan 7.5x6.5" !</p>');
 return;
 }
-if(low.includes('plan')||low.match(/\d+\s*[x×]\s*\d+/)||low.includes('7.5')||low.includes('6.5')){showPlan();return;}
-if(low.includes('façade')||low.includes('facade')||low.includes('toit rouge')||low.includes('marbre')){
-addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>🏠 FAÇADE 3D - Toit Rouge Tuiles - Marbre Noir Veiné - V21</b></p><p>✅ Toit tuiles rouges<br>✅ Piliers marbre noir veiné blanc<br>✅ Garage noir bandes vitrées<br>✅ Entrée arche + porte bois<br>✅ Terrasse carrelage gris + plantes + voiture argentée<br><br><b>Ultra réaliste - Pack client prêt !</b></p>');
+if(low.indexOf('plan')>-1||low.match(/\d+\s*x\s*\d+/)||low.indexOf('7.5')>-1){
+showPlan();
 return;
 }
-if(low.includes('devis')||low.includes('prix')||low.includes('coût')||low.includes('cout')||low.includes('combien')){
+if(low.indexOf('facade')>-1||low.indexOf('façade')>-1||low.indexOf('toit')>-1){
 addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>💰 DEVIS ESTIMATIF - Villa 7.5x6.5 - 48.75m² - Kagbelen 2026</b></p><p><b>Gros œuvre :</b> Fondation 35 sacs + 1.5T fer, Élévation 4000 briques + 40 sacs, Dalle 12m³, Toiture 70m² 18M GNF, Ferraillage 1.2T<br><b>Second œuvre :</b> Enduit 60 sacs, Carrelage 50m², Peinture 30 pots, Élec + plomberie 12M GNF<br><b>Main d œuvre : ~18M GNF</b><br><b>TOTAL : 90-105M GNF finition standard</b></p>');
+addMsg('ai','<p><b>🏠 Façade 3D Toit Rouge Marbre Noir</b><br>✅ Toit tuiles rouges<br>✅ Piliers marbre noir veiné<br>✅ Garage noir<br>✅ Plantes + voiture argentée</p>');
 return;
 }
-if(low.includes('explique')||low.includes('béton')||low.includes('cours')||low.includes('comment')||low.includes('chantier')){
+if(low.indexOf('devis')>-1||low.indexOf('prix')>-1||low.indexOf('combien')>-1){
 addMsg('user','<p>'+t+'</p>');
-let ans=low.includes('béton')?'<p><b>📚 Le béton armé - Cours BTP V21</b></p><p>Béton armé = béton + acier. Béton = compression, acier = traction. Dosage : 1 sac ciment, 2 sable, 3 gravier, 30L eau. Pour dalle 7.5x6.5 : 84 sacs ciment.</p>':low.includes('chantier')?'<p><b>💬 Gérer chantier Kagbelen - V21</b></p><p>1. 7h appel ouvriers, check ciment<br>2. Anti-vol : compte sacs, cadenas<br>3. Planning : Fondation 5j, élévation 10j<br>4. Paiement : 80k GNF/j + bonus<br>5. Client : Photo WhatsApp soir</p>':'<p><b>📚 Réponse V21 - Comme Meta AI</b></p><p>Pour "'+t+'" : Je t explique tout en détail avec exemples Kagbelen.</p>';
-addMsg('ai',ans);
+addMsg('ai','<p><b>💰 Devis 7.5x6.5 - 48.75m² - Kagbelen</b><br>Fondation 35 sacs, Élévation 4000 briques, Toiture 70m² 18M GNF, Ferraillage 1.2T, Main d œuvre 18M GNF<br><br><b>TOTAL : 90-105M GNF</b></p>');
 return;
 }
-// RÉPONSE GÉNÉRALE INTELLIGENTE - Plus de boucle
 addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p>Excellente question Balla ! Pour "<b>'+t+'</b>" :</p><p>Je suis <b>AMATECHIA V21</b>, créé par Balla à Kagbelen en Octobre 2026. Je réponds à TOUT comme Meta AI, mais avec une expertise BTP Guinée unique !</p><p><b>Je peux t aider sur :</b><br>• <b>BTP</b> : plans HD, façades, devis, cours béton armé, ferraillage, gestion chantier<br>• <b>École</b> : maths, physique, chimie, dissertation<br>• <b>Code</b> : HTML, CSS, JavaScript, Python<br>• <b>Vie quotidienne</b> : conseils business, motivation, organisation<br>• <b>Culture générale</b> : histoire, géographie, actualités<br><br><b>Dis-moi en plus sur "'+t+'" et je te donne une réponse complète, avec exemples concrets de Kagbelen si tu veux !</b><br><br>Ou tape <b>"Plan 7.5x6.5"</b> pour voir le plan HD PRO !</p>');
+addMsg('ai','<p>Pour "<b>'+t+'</b>" : Je suis AMATECHIA V22, je réponds à tout comme Meta AI !<br><br>BTP, cours, code, conseil vie - Dis-moi plus et je développe !<br><br>Ou tape <b>Plan 7.5x6.5</b> !</p>');
 }
 </script>
+</body>
+</html>
