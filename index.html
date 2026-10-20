@@ -84,7 +84,7 @@ async function askGroq(question){
    method:'POST',
    headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
    body:JSON.stringify({
-   model:'llama-3.1-8b-instant',
+  model:'openai/gpt-oss-20b',
     messages:[
      {role:'system',content:`Tu es AMATECHIA BALLA, IA Guinéenne brillante créée par Balla Moussa Diawara, élève à Conakry. Tu es prof expert en TOUT: maths, physique, chimie, français, anglais, malinké, soussou, pular, BTP, génie civil, latérite, entrepreneuriat, business, enseignement. Tu expliques comme un grand frère guinéen, clair, avec exemples de Conakry (Km36, Kaporo, Sonfonia). Tu résous les exercices étape par étape. Tu réponds toujours en français sauf si on te parle en autre langue. Sois brillante, utile, fière d'être Guinéenne. Max 200 mots.`},
      {role:'user',content:question}
