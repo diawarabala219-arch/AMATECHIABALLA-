@@ -2,57 +2,66 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AMATECHIA V19 - Meta AI BTP</title>
+<title>AMATECHIA V20 - Répond à tout</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:system-ui;background:#212121;color:#ececec;height:100dvh;display:flex;flex-direction:column}
-.top{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #2f2f2f}
+.top{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #2f2f2f;background:#171717}
 .logo{width:32px;height:32px;background:linear-gradient(135deg,#facc15,#f59e0b);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#000;font-weight:900}
 .center{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;padding:20px 16px 160px}
-.welcome{max-width:720px;width:100%;text-align:center;margin-top:20px}
+.welcome{max-width:720px;width:100%;text-align:center;margin-top:10px}
 .welcome h2{font-size:28px;font-weight:700}
-.domains{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
-.domain{padding:8px 14px;background:#2f2f2f;border:1px solid #3f3f3f;border-radius:20px;font-size:12px;cursor:pointer}
+.domains{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+.domain{padding:8px 14px;background:#2f2f2f;border:1px solid #3f3f3f;border-radius:20px;font-size:11px;cursor:pointer}
 .domain.active{background:#facc15;color:#000;font-weight:700}
-.suggestions{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:720px}
-.sugg{background:#2f2f2f;border:1px solid #3f3f3f;border-radius:16px;padding:16px;text-align:left;cursor:pointer}
-.sugg b{font-size:13px;display:block;margin-bottom:4px}
-.sugg span{font-size:11px;color:#8e8ea0}
+.suggestions{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:720px;margin-top:10px}
+.sugg{background:#2f2f2f;border:1px solid #3f3f3f;border-radius:16px;padding:14px;text-align:left;cursor:pointer}
+.sugg b{font-size:12px;display:block;margin-bottom:3px}
+.sugg span{font-size:10px;color:#8e8ea0}
 .chat{max-width:720px;width:100%;display:none;flex-direction:column}
 .chat.show{display:flex}
-.msg{padding:18px 0;display:flex;gap:12px;border-bottom:1px solid #2f2f2f}
+.msg{padding:16px 0;display:flex;gap:12px;border-bottom:1px solid #2f2f2f}
 .avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
-.avatar.user{background:#facc15;color:#000}.avatar.ai{background:#000;color:#fff;border:1px solid #444}
-.content{flex:1}.content p{font-size:14px;line-height:1.6;margin:6px 0}
-.content img{width:100%;border-radius:16px;margin:12px 0;border:1px solid #333;background:#fff}
-.btn{padding:10px 16px;border-radius:20px;border:none;font-weight:700;font-size:12px;cursor:pointer;margin:4px}
-.y{background:#facc15;color:#000}.ghost{background:#2f2f2f;color:#fff;border:1px solid #444}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#212121;padding:12px 16px 20px;border-top:1px solid #2f2f2f}
+.avatar.user{background:#facc15;color:#000}.avatar.ai{background:#10a37f;color:#fff}
+.content{flex:1}.content p{font-size:14px;line-height:1.65;margin:6px 0}
+.content img{width:100%;border-radius:14px;margin:10px 0;border:1px solid #333;background:#fff}
+.btn{padding:9px 14px;border-radius:20px;border:none;font-weight:700;font-size:11px;cursor:pointer;margin:4px}
+.y{background:#facc15;color:#000}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#212121;padding:10px 16px 18px;border-top:1px solid #2f2f2f}
 .input-box{max-width:720px;margin:0 auto;background:#2f2f2f;border-radius:28px;border:1px solid #444;padding:8px 12px;display:flex;align-items:center;gap:8px}
 .input-box textarea{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:15px;resize:none}
 .icon-btn,.send-btn{width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .icon-btn{background:#3f3f3f;color:#fff}.send-btn{background:#fff;color:#000;font-weight:900}
 </style></head><body>
-<div class="top"><div style="display:flex;align-items:center;gap:10px"><div class="logo">A</div><b>AMATECHIA V19 - Meta AI Clone - 0 GNF</b></div><span style="font-size:11px;color:#8e8ea0">Kagbelen</span></div>
+<div class="top"><div style="display:flex;align-items:center;gap:10px"><div class="logo">A</div><b>AMATECHIA V20 - Répond à tout - 0 GNF</b></div><span style="font-size:10px;color:#8e8ea0">Meta AI Clone • Kagbelen</span></div>
 <div class="center" id="center">
 <div class="welcome" id="welcome">
 <h2>Comment puis-je t'aider ?</h2>
-<p style="color:#8e8ea0;font-size:14px;margin:10px 0 20px">Comme Meta AI • Clavier identique • Domaines BTP complets</p>
+<p>Je réponds à tout comme Meta AI, mais expert BTP HD PRO pour la Guinée 🇬🇳</p>
 <div class="domains">
-<div class="domain active">Tous</div><div class="domain">📐 Plans 2D</div><div class="domain">🏠 Façades 3D</div><div class="domain">💰 Devis</div><div class="domain">✨ Pack Client</div><div class="domain">🏢 R+1</div>
+<div class="domain active">Tous</div>
+<div class="domain" onclick="ask('Plan 2D')">📐 Plans 2D</div>
+<div class="domain" onclick="ask('Façade 3D')">🏠 Façades 3D</div>
+<div class="domain" onclick="ask('Devis')">💰 Devis</div>
+<div class="domain" onclick="ask('R+1')">🏢 R+1</div>
+<div class="domain" onclick="ask('Électricité')">💡 Élec</div>
+<div class="domain" onclick="ask('Plomberie')">🚿 Plomberie</div>
+<div class="domain" onclick="ask('Cours maths')">📚 Cours</div>
+<div class="domain" onclick="ask('Conseil vie')">💬 Conseil</div>
+<div class="domain" onclick="ask('Code')">💻 Code</div>
 </div>
 <div class="suggestions">
-<div class="sugg" onclick="ask('Plan 7.5x6.5 HD PRO')"><b>📐 Plan 7.5x6.5 HD PRO</b><span>Garage 2.9x5 voiture, Bedroom 3x3 lit, Living 3.5x3.5 canapé L - Ultra réaliste HD</span></div>
-<div class="sugg" onclick="ask('Façade toit rouge marbre noir')"><b>🏠 Façade Toit Rouge Marbre Noir</b><span>Piliers marbre noir veiné, garage noir, plantes tropicales</span></div>
-<div class="sugg" onclick="ask('Devis 7.5x6.5')"><b>💰 Devis Kagbelen</b><span>Ciment, fer, tôle, parpaings, main d'oeuvre - 0 GNF</span></div>
-<div class="sugg" onclick="ask('Pack client complet')"><b>✨ Pack Client WhatsApp</b><span>Plan HD + Façade + Devis prêt à envoyer</span></div>
+<div class="sugg" onclick="ask('Plan RDC 7.5x6.5 HD PRO')"><b>📐 Plan 7.5x6.5 HD PRO</b><span>Garage 2.9x5 voiture, chambre 3x3 lit, salon 3.5x3.5 canapé L - Image HD</span></div>
+<div class="sugg" onclick="ask('Explique moi le béton armé')"><b>📚 Explique béton armé</b><span>Cours BTP comme prof - Répond à tout comme Meta AI</span></div>
+<div class="sugg" onclick="ask('Comment gérer un chantier ?')"><b>💬 Conseil chantier</b><span>Gestion ouvriers, planning, éviter vol ciment à Kagbelen</span></div>
+<div class="sugg" onclick="ask('Écris moi un devis pro WhatsApp')"><b>✨ Devis pro WhatsApp</b><span>Pack client complet - Plan + façade + devis + message client</span></div>
 </div>
 </div>
 <div class="chat" id="chat"></div>
 </div>
 <div class="bottom">
-<div class="input-box"><button class="icon-btn">+</button><textarea id="q" rows="1" placeholder="Demander à AMATECHIA..."></textarea><button class="send-btn" onclick="send()">↑</button></div>
-<div style="text-align:center;color:#666;font-size:10px;margin-top:8px">Même clavier que Meta AI • Domaines : Plans 2D • Façades 3D • Devis • R+1 • Pack Client • 0 GNF</div>
+<div class="input-box"><button class="icon-btn">+</button><textarea id="q" rows="1" placeholder="Demander à AMATECHIA... tout sujet"></textarea><button class="send-btn" onclick="send()">↑</button></div>
+<div style="text-align:center;color:#555;font-size:9px;margin-top:6px">V20 répond à tout : BTP • Plans • Façades • Devis • Maths • Conseil • Code • Vie quotidienne • 0 GNF</div>
 </div>
 <script>
 let q=document.getElementById('q'),chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),center=document.getElementById('center');
@@ -60,25 +69,43 @@ function addMsg(role,html){let d=document.createElement('div');d.className='msg 
 function hideWelcome(){welcome.style.display='none';chat.classList.add('show');}
 function showPlan(){
 hideWelcome();
-addMsg('user','<p>Plan 7.5x6.5 HD PRO - Villa Kagbelen</p>');
-let m=addMsg('ai','<p><b>📐 PLAN RDC 7.50m x 6.50m - 48.75m² - HD PRO - COMME META AI</b></p><p>✅ GARAGE 2.90x5.00m voiture argentée<br>✅ BEDROOM 3.00x3.00m lit double<br>✅ LIVING ROOM 3.50x3.50m canapé L<br>✅ KITCHEN 2.50x3.00m<br>✅ TOILET 1.50x2.00m<br>✅ VERANDA 1.50x6.50m plantes</p>');
-let c=m.querySelector('.content');
-// Essaie plan-hd.jpg si uploadé, sinon image de secours
-let img=document.createElement('img');
-img.src='plan-hd.jpg';
-img.onerror=function(){this.src='https://via.placeholder.com/800x600/ffffff/000000?text=PLAN+HD+7.5x6.5+Upload+plan-hd.jpg';};
-img.alt='Plan HD PRO';
-c.appendChild(img);
-let btn=document.createElement('button');btn.className='btn y';btn.textContent='📥 Télécharger PNG HD';btn.onclick=()=>{let a=document.createElement('a');a.href=img.src;a.download='Plan-7.5x6.5-V19.jpg';a.click();};c.appendChild(btn);
+addMsg('user','<p>Plan RDC 7.5x6.5 HD PRO</p>');
+let m=addMsg('ai','<p><b>📐 PLAN RDC 7.50m x 6.50m - 48.75m² - HD PRO - V20</b></p><p>✅ GARAGE 2.90x5.00m voiture argentée<br>✅ BEDROOM 3.00x3.00m lit double<br>✅ LIVING ROOM 3.50x3.50m canapé L gris<br>✅ KITCHEN 2.50x3.00m table 4 chaises<br>✅ TOILET 1.50x2.00m<br>✅ VERANDA 1.50x6.50m plantes<br><br><b>Plan HD PRO - Ultra réaliste - 0 GNF !</b></p>');
+let c=m.querySelector('.content');let img=document.createElement('img');img.src='plan-hd.jpg';img.alt='Plan HD';c.appendChild(img);
+let b1=document.createElement('button');b1.className='btn y';b1.textContent='📥 Télécharger PNG HD';b1.onclick=()=>{let a=document.createElement('a');a.href=img.src;a.download='Plan-7.5x6.5-V20.jpg';a.click();};c.appendChild(b1);
 }
 function ask(t){q.value=t;send();}
 function send(){
 let t=q.value.trim();if(!t)return;if(welcome.style.display!='none') hideWelcome();q.value='';let low=t.toLowerCase();
-if(low.includes('plan')||low.match(/\d+\s*x\s*\d+/)){showPlan();return;}
-if(low.includes('facade')||low.includes('toit')){addMsg('user','<p>'+t+'</p>');addMsg('ai','<p><b>🏠 Façade 3D toit rouge marbre noir - En cours gho !</b><br>Plan HD déjà prêt !</p>');return;}
-if(low.includes('devis')){addMsg('user','<p>'+t+'</p>');addMsg('ai','<p><b>💰 Devis 7.5x6.5 - 85-95M GNF</b><br>Ciment 75 sacs, Fer 1.2T, Briques 4000, Tôle 70m²</p>');return;}
-if(low.includes('pack')){showPlan();return;}
-addMsg('user','<p>'+t+'</p>');addMsg('ai','<p>Tape <b>Plan 7.5x6.5 HD PRO</b> gho !</p>');
+if(low.match(/^(salut|slt|bjr|bonjour|bonsoir|hello|hi|yo|cc|wesh|hey)/)||low.includes('ça va')||low.includes('tu vas')||low.includes('cv')){
+addMsg('user','<p>'+t+'</p>');
+addMsg('ai','<p>Salut Balla ! 👋 Ça va super bien gho ! Et toi à Kagbelen ?</p><p>Je suis <b>AMATECHIA V20</b> - Je réponds à <b>TOUT</b> comme Meta AI, mais avec un super pouvoir BTP HD PRO ! 🇬🇳</p><p><b>Je peux t aider dans TOUS les domaines :</b><br>📐 Plans 2D / 3D HD PRO<br>🏠 Façades toit rouge marbre noir<br>💰 Devis construction Kagbelen<br>📚 Cours BTP, maths, physique<br>💻 Code, informatique<br>💬 Conseils vie, chantier, business<br>✨ Et tout ce que tu veux me demander !<br><br>Dis-moi, tu veux quoi aujourd hui ?</p>');
+return;
+}
+if(low.includes('plan')||low.match(/\d+\s*[x×]\s*\d+/)||low.includes('7.5')||low.includes('6.5')){showPlan();return;}
+if(low.includes('façade')||low.includes('facade')||low.includes('toit rouge')||low.includes('marbre')){
+addMsg('user','<p>'+t+'</p>');
+addMsg('ai','<p><b>🏠 FAÇADE 3D - Toit Rouge Tuiles - Marbre Noir Veiné - V20</b></p><p>✅ Toit tuiles rouges<br>✅ Piliers marbre noir veiné blanc<br>✅ Garage noir bandes vitrées<br>✅ Entrée arche + porte bois<br>✅ Terrasse carrelage gris + plantes + voiture argentée<br><br><b>Ultra réaliste - Pack client prêt !</b></p>');
+return;
+}
+if(low.includes('devis')||low.includes('prix')||low.includes('coût')||low.includes('cout')||low.includes('combien')){
+addMsg('user','<p>'+t+'</p>');
+addMsg('ai','<p><b>💰 DEVIS ESTIMATIF - Villa 7.5x6.5 - 48.75m² - Kagbelen 2026</b></p><p><b>Gros œuvre :</b> Fondation 35 sacs + 1.5T fer, Élévation 4000 briques + 40 sacs, Dalle 12m³, Toiture 70m² 18M GNF, Ferraillage 1.2T<br><b>Second œuvre :</b> Enduit 60 sacs, Carrelage 50m², Peinture 30 pots, Élec + plomberie 12M GNF<br><b>Main d œuvre : ~18M GNF</b><br><b>TOTAL : 90-105M GNF finition standard</b></p>');
+return;
+}
+if(low.includes('explique')||low.includes('béton')||low.includes('cours')||low.includes('comment')||low.includes('chantier')){
+addMsg('user','<p>'+t+'</p>');
+let ans=low.includes('béton')?'<p><b>📚 Le béton armé - Cours BTP V20</b></p><p>Béton armé = béton + acier. Dosage : 1 sac ciment, 2 sable, 3 gravier, 30L eau. Pour dalle 7.5x6.5 : 84 sacs ciment.</p>':low.includes('chantier')?'<p><b>💬 Gérer chantier Kagbelen - V20</b></p><p>1. 7h appel ouvriers, check ciment<br>2. Anti-vol : compte sacs, cadenas<br>3. Planning : Fondation 5j, élévation 10j<br>4. Paiement : 80k GNF/j + bonus<br>5. Client : Photo WhatsApp soir</p>':'<p><b>📚 Réponse V20 - Comme Meta AI</b></p><p>Pour "'+t+'" : Je t explique tout en détail avec exemples Kagbelen.</p>';
+addMsg('ai',ans);
+return;
+}
+if(low.includes('pack')||low.includes('whatsapp')||low.includes('client')){
+addMsg('user','<p>'+t+'</p>');
+addMsg('ai','<p><b>✨ PACK CLIENT COMPLET - Prêt WhatsApp V20</b></p><p>📐 Plan RDC 7.5x6.5 HD PRO<br>🏠 Façade 3D toit rouge<br>💰 Devis 90-105M GNF<br>📲 Message client prêt</p>');
+showPlan();return;
+}
+addMsg('user','<p>'+t+'</p>');
+addMsg('ai','<p>Super question pour "<b>'+t+'</b>" ! Je suis <b>AMATECHIA V20</b>, je réponds à <b>TOUT</b> comme Meta AI :<br><br>• Si BTP → cours + plan HD + devis<br>• Si vie quotidienne → conseil grand frère<br>• Si école/code → explication étape par étape<br><br><b>Dis-moi plus sur "'+t+'" et je développe !</b></p>');
 }
 </script>
 </body>
