@@ -3,48 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMATECHIA - La Tech pour tous</title>
+<title>AMATECHIA - AI Guinée</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',Arial;background:#f0f2f5;padding:10px}
-.header{background:#1a73e8;color:white;padding:20px;text-align:center;border-radius:10px;margin-bottom:15px}
-.card{background:white;padding:15px;border-radius:12px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.btn{border:none;padding:12px 18px;border-radius:8px;color:white;font-weight:bold;cursor:pointer;margin:3px}
-.btn-blue{background:#1a73e8} .btn-green{background:#34a853} .btn-red{background:#ea4335} .btn-orange{background:#fbbc04;color:black}
-textarea{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:16px}
-.question-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
-.badge{background:#e8f0fe;color:#1a73e8;padding:4px 10px;border-radius:20px;font-size:12px}
+body{font-family:system-ui;display:flex;height:100vh;background:#212121;color:white}
+.sidebar{width:260px;background:#171717;padding:12px;display:flex;flex-direction:column}
+.new-chat{background:#212121;border:1px solid #444;color:white;padding:12px;border-radius:10px;width:100%;cursor:pointer;margin-bottom:15px}
+.history{flex:1;overflow-y:auto}
+.history-item{padding:10px;border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;margin-bottom:4px}
+.history-item:hover{background:#2f2f2f}
+.main{flex:1;display:flex;flex-direction:column;background:#212121}
+.chat-area{flex:1;overflow-y:auto;padding:20px}
+.message{max-width:750px;margin:0 auto 20px auto;display:flex;gap:15px;padding:15px}
+.user-msg{background:#2f2f2f;border-radius:15px}
+.assistant-msg{}
+.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.user-avatar{background:#19c37d}
+.ai-avatar{background:#1a73e8}
+.content{flex:1;line-height:1.6}
+.input-area{padding:20px;background:#212121}
+.input-box{max-width:750px;margin:0 auto;background:#2f2f2f;border-radius:25px;display:flex;align-items:center;padding:8px 15px}
+.input-box textarea{flex:1;background:transparent;border:none;color:white;outline:none;resize:none;padding:10px;font-size:16px;max-height:120px}
+.btn-icon{background:#fff;color:black;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.top-title{text-align:center;padding:15px;color:#aaa;font-size:14px}
+.speak-btn{background:transparent;border:1px solid #444;color:#aaa;padding:4px 10px;border-radius:15px;font-size:12px;cursor:pointer;margin-top:8px}
+.speak-btn:hover{color:white;border-color:white}
 </style>
 </head>
 <body>
 
-<div class="header">
-<h1>AMATECHIA</h1>
-<p>La technologie pour tous - Guinée</p>
+<div class="sidebar">
+<button class="new-chat" onclick="newChat()">+ Nouveau Chat</button>
+<div style="font-size:12px;color:#aaa;margin:10px 0">HISTORIQUE - Questionnaires</div>
+<div class="history" id="history"></div>
+<button onclick="clearAll()" style="margin-top:10px;background:transparent;border:1px solid #444;color:#aaa;padding:8px;border-radius:8px;cursor:pointer">Effacer tout</button>
 </div>
 
-<div class="card">
-<h3>➕ Nouvelle Question</h3>
-<textarea id="qInput" rows="3" placeholder="Ex: C'est quoi l'informatique ?"></textarea>
-<button class="btn btn-blue" onclick="ajouter()">Ajouter la question</button>
-<button class="btn btn-red" onclick="effacerTout()">Effacer tout</button>
+<div class="main">
+<div class="top-title">AMATECHIA - L'IA de Guinée 🇬🇳</div>
+<div class="chat-area" id="chat">
+<div style="text-align:center;margin-top:100px;color:#aaa">
+<h1 style="color:white;margin-bottom:10px">AMATECHIA</h1>
+<p>Pose ta question, je garde tout ton historique !</p>
 </div>
-
-<div class="card">
-<h3>📚 Questions enregistrées <span class="badge" id="count">0</span></h3>
-<div id="liste"></div>
 </div>
-
-<div class="card">
-<h3>🔊 Lectrice Vocale AMATECHIA</h3>
-<textarea id="txtLire" rows="4" placeholder="Colle un long texte ici, elle va lire TOUT sans couper..."></textarea>
-<div style="margin:10px 0">
-<label>Vitesse: <input type="range" id="vitesse" min="0.3" max="1.3" step="0.1" value="0.8"> <span id="vVal">0.8</span></label>
+<div class="input-area">
+<div class="input-box">
+<textarea id="input" rows="1" placeholder="Pose une question à AMATECHIA..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+<button class="btn-icon" onclick="send()">↑</button>
 </div>
-<button class="btn btn-green" onclick="lireTout()">▶️ LIRE TOUT</button>
-<button class="btn btn-orange" onclick="stopLecture()">⏹️ STOP</button>
-<p id="status" style="margin-top:10px;color:green;font-weight:bold"></p>
+<p style="text-align:center;color:#666;font-size:11px;margin-top:10px">AMATECHIA garde toutes tes questions - Comme Meta AI</p>
+</div>
 </div>
 
 <script>
-// ===== PARTIE 1: SAUVEGARDE QUI NE S
+// SAUVEGARDE COMME META AI
+let chats = JSON.parse(localStorage.getItem('amatechia_chats_v3') || '[]');
+let currentChatId = null;
+
+function save(){localStorage.setItem('amatechia_chats_v3', JSON.stringify(chats));}
+
+function newChat(){currentChatId=null;document.getElementById('chat').innerHTML=`<div style="text-align:center;margin-top:100px;color:#aaa"><h1 style="color:white">AMATECHIA</h1><p>Nouveau chat commencé</p></div>`;}
+
+function clearAll(){if(confirm('Effacer tout l\'historique ?')){chats=[];save();renderHistory();newChat();}}
+
+function send(){
+ let txt=document.getElementById('input').value.trim();
+ if(!txt) return;
+ document.getElementById('input').value='';
+ 
+ // Crée un nouveau chat si besoin
+ if(!currentChatId){currentChatId=Date.now(); chats.unshift({id:currentChatId,title:txt.substring(0,30),messages:[]});}
+ let chat=chats.find(c=>c.id===currentChatId);
+ 
+ // Message user
+ chat.messages.push({role:'user',text:txt});
+ renderChat(chat);
+ 
+ // Réponse AMATECHIA (simulée - tu peux brancher une vraie API après)
+ setTimeout(()=>{
+   let reponse = `Excellente question : "${txt}"\n\nJe suis AMATECHIA, ton assistant guinéen. Voici la réponse complète à ta question. Cette réponse va être lue en entier sans coupure grâce au système de lecture par morceaux.\n\nSi tu as d'autres questions sur la tech, l'informatique, la programmation, pose-les moi ! Je garde tout ton historique comme ChatGPT.`;
+   chat.messages.push({role:'assistant',text:reponse});
+   save(); renderChat(chat); renderHistory();
+ },500);
+ save(); renderHistory();
+}
+
+function renderChat(chat){
+ let area=document.getElementById('chat');
+ area.innerHTML=chat.messages.map(m=>`
+  <div class="message ${m.role==='user'?'user-msg':''}">
+   <div class="avatar ${m.role==='user'?'user-avatar':'ai-avatar'}">${m.role==='user'?'B':'A'}</div>
+   <div class="content">
+     <div style="white-space:pre-wrap">${m.text}</div>
+     ${m.role==='assistant'?`<button class="speak-btn" onclick="speakFull(\`${m.text.replace(/`/g,'').replace(/'/g,"\\'")}\`)">🔊 Lire tout</button>`:''}
+   </div>
+  </div>
+ `).join('');
+ area.scrollTop=area.scrollHeight;
+}
+
+function renderHistory(){
+ let h=document.getElementById('history');
+ if(chats.length===0){h.innerHTML='<p style="color:#666;font-size:13px">Aucun chat</p>';return;}
+ h.innerHTML=chats.map(c=>`<div class="history-item" onclick="openChat(${c.id})">${c.title}</div>`).join('');
+}
+function openChat(id){currentChatId=id;let c=chats.find(x=>x.id===id);renderChat(c);}
+
+// LECTURE COMPLÈTE SANS COUPER - LE SECRET
+let synth=window.speechSynthesis;
+let queue=[];
+function speakFull(longText){
+ synth.cancel();
+ queue = longText.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [longText];
+ let finalQueue=[];
+ queue.forEach(p=>{ if(p.length>80){ finalQueue.push(...(p.match(/.{1,75}(\s|$)/g)||[p])); } else finalQueue.push(p); });
+ queue=finalQueue.filter(p=>p.trim().length>2);
+ readNext();
+}
+function readNext(){
+ if(queue.length===0) return;
+ let u=new SpeechSynthesisUtterance(queue.shift());
+ u.lang='fr-FR'; u.rate=0.85;
+ u.onend=()=>setTimeout(readNext,200);
+ synth.speak(u);
+}
+
+renderHistory();
+</script>
+</body>
+</html>
