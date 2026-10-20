@@ -2,83 +2,144 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>AMATECHIA - Toutes Matières</title>
+<title>AMATECHIA - Comme Meta AI</title>
 <style>
-body{font-family:Arial;background:#eef2f7;margin:0;padding:10px}
-.h{background:linear-gradient(90deg,#0d47a1,#1976d2);color:white;padding:20px;text-align:center;border-radius:14px}
-.card{background:white;padding:15px;border-radius:12px;margin-top:12px;box-shadow:0 2px 6px #bbb}
-input{width:100%;padding:14px;border-radius:10px;border:2px solid #ccc;font-size:16px;box-sizing:border-box}
-button{border:none;padding:13px;border-radius:10px;color:white;font-weight:bold;cursor:pointer}
-.b1{background:#0d47a1;width:100%;margin-top:8px;font-size:17px} .b2{background:#2e7d32} .b3{background:#c62828;padding:6px 10px}
-.msg{padding:12px;border-radius:10px;margin:10px 0}
-.u{background:#e3f2fd} .a{background:#f9f9f9;border:1px solid #ddd}
-img.plan{width:100%;border-radius:10px;margin-top:10px;border:2px solid #0d47a1}
-.tag{display:inline-block;background:#0d47a1;color:white;padding:3px 8px;border-radius:12px;font-size:11px;margin:2px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui;background:#0f172a;color:white;display:flex;height:100vh}
+.sidebar{width:260px;background:#020617;border-right:1px solid #1e293b;display:flex;flex-direction:column;padding:10px}
+.main{flex:1;display:flex;flex-direction:column}
+.header{padding:15px;background:#1e293b;border-bottom:2px solid #facc15;text-align:center}
+.chat{flex:1;overflow-y:auto;padding:15px;max-width:900px;margin:0 auto;width:100%}
+.bubble{background:#1e293b;padding:14px 16px;border-radius:16px;margin:12px 0;border:1px solid #334155;line-height:1.6;white-space:pre-wrap}
+.user{background:#facc15;color:#000;margin-left:50px;font-weight:600;border:none}
+.ai{background:#1e293b}
+.history{flex:1;overflow-y:auto;margin-top:10px}
+.h-item{padding:10px;border-radius:8px;cursor:pointer;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;background:#0f172a;border:1px solid #1e293b}
+.h-item:hover{background:#1e293b}
+.input-area{padding:12px;background:#020617;border-top:1px solid #1e293b;display:flex;gap:8px;align-items:center}
+.input-area input{flex:1;padding:14px 18px;border-radius:25px;border:none;background:#1e293b;color:white;font-size:15px;outline:none}
+.btn{background:#facc15;color:black;border:none;padding:12px 18px;border-radius:25px;font-weight:bold;cursor:pointer}
+.btn-mic{background:#22c55e;color:white;width:44px;height:44px;border-radius:50%;border:none;font-size:20px;cursor:pointer}
+img.plan{width:100%;border-radius:12px;margin-top:12px;border:2px solid #facc15}
+@media(max-width:700px){.sidebar{position:fixed;left:-300px;top:0;bottom:0;z-index:10;transition:0.3s}.sidebar.open{left:0}.main{width:100%}}
 </style>
 </head>
 <body>
-<div class="h"><h2>AMATECHIA 🇬🇳 PRO</h2><div><span class="tag">BTP</span><span class="tag">Architecture</span><span class="tag">Génie Civil</span><span class="tag">Électricité</span><span class="tag">Informatique</span><span class="tag">Maths</span><span class="tag">Monde</span></div><small>Toutes matières + Plans + Lecture auto</small></div>
-<div class="card"><input id="q" placeholder="Ex: plan villa 3 chambres, cours électricité, formule béton..." onkeydown="if(event.key=='Enter')go()"><button class="b1" onclick="go()">Envoyer</button></div>
-<div class="card" id="chat">...</div>
-<div class="card"><b>🔊</b> <span id="etat">Prête</span> <button class="b2" onclick="speechSynthesis.cancel();document.getElementById('etat').textContent='Stop'">STOP</button> Vitesse <input type="range" id="vit" min="0.5" max="1.3" value="0.9" style="width:80px" oninput="vtxt.innerText=this.value"><span id="vtxt">0.9</span></div>
+
+<div class="sidebar" id="sidebar">
+<button class="btn" onclick="newChat()" style="width:100%">+ Nouveau Chat</button>
+<div style="font-size:11px;color:#94a3b8;margin:12px 0 5px">HISTORIQUE - Anciennes questions</div>
+<div class="history" id="history"></div>
+<button onclick="clearHistory()" style="margin-top:10px;background:transparent;border:1px solid #334155;color:#94a3b8;padding:8px;border-radius:8px;width:100%;cursor:pointer">Effacer tout</button>
+</div>
+
+<div class="main">
+<div class="header">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<button onclick="document.getElementById('sidebar').classList.toggle('open')" style="background:transparent;border:none;color:#facc15;font-size:20px">☰</button>
+<div><h3 style="color:#facc15">AMATECHIA - Comme Meta AI 🇬🇳</h3><small>Par Balla Moussa Diawara - Garde tout, fait tout</small></div>
+<button style="background:transparent;border:none;color:#facc15;font-size:20px" onclick="speechSynthesis.cancel()">🔇</button>
+</div>
+</div>
+
+<div class="chat" id="chat">
+<div class="bubble ai">Salut Balla ! Je suis AMATECHIA, maintenant je suis comme Meta AI ! 🌟<br><br>✅ Je garde toutes tes anciennes questions à gauche<br>✅ Je fais tout: Maths, Physique, BTP, Plans Villa, Business, Français<br>✅ Je parle et j'écoute<br>✅ J'envoie les photos des plans<br><br>Exemple: tape "plan villa 3 chambres" ou "résous x²=4" ou "dosage béton B25"<br><br>Pose ta question !</div>
+</div>
+
+<div class="input-area">
+<button class="btn-mic" onclick="startVoice()">🎤</button>
+<input id="q" placeholder="Demande comme à Meta AI... ex: plan villa, cours BTP, maths..." onkeydown="if(event.key=='Enter')send()">
+<button class="btn" onclick="send()">↑</button>
+</div>
+</div>
 
 <script>
-let DATA=JSON.parse(localStorage.getItem('amatechia_v6')||'[]');
-let synth=window.speechSynthesis;
-const save=()=>localStorage.setItem('amatechia_v6',JSON.stringify(DATA));
+let chats = JSON.parse(localStorage.getItem('amatechia_meta_like_v1')||'[]');
+let currentId = null;
+let chatDiv = document.getElementById('chat');
+let synth = window.speechSynthesis;
 
-function getRep(quest){
- let q=quest.toLowerCase();
- // 1. PLANS - Génération image
- if(q.match(/plan|villa|maison|batiment|bâtiment|duplex|appartement/)){
-   let prompt = quest;
-   return {t:`Excellent ! Tu as demandé : "${quest}". Voici un plan professionnel généré pour toi. C'est un plan d'architecte avec cotations. Tu peux le télécharger en cliquant dessus. Si tu veux autre chose dis : plan villa 4 chambres, plan R+1, plan fondation.`, plan:true, prompt:prompt};
- }
- // MATIÈRES PROFESSIONNELLES
- if(q.match(/béton|dosage|b25|b30|fondation/)) return {t:`DOSAGE BÉTON (Matière Pro BTP):\n- Béton B25 (fondation): 350kg ciment, 0.5m3 sable, 0.8m3 gravier, 175L eau.\n- Béton B15 (propreté): 150kg ciment.\n- 1m3 béton = 7 sacs de 50kg pour B25.\n- Cure: arroser 7 jours.\nFormule: Résistance = Ciment/Eau.`};
- if(q.match(/électricité|electrique|branchement|cable|disjoncteur/)) return {t:`ÉLECTRICITÉ BÂTIMENT (Pro):\n- Section câble: 1.5mm² pour éclairage, 2.5mm² pour prises, 6mm² pour cuisinière.\n- Disjoncteur: 10A éclairage, 16A prises, 32A clim.\n- Hauteur prises: 30cm du sol, interrupteurs 1.20m.\n- Terre obligatoire <100 ohms.\n- Norme: Bleu=Neutre, Marron=Phase, Vert/Jaune=Terre.`};
- if(q.match(/plomberie|tuyau|evacuation|fuite/)) return {t:`PLOMBERIE (Pro):\n- Tuyau PER 12/16 pour distribution, PVC 100 pour évacuation.\n- Pente évacuation: 2cm par mètre minimum.\n- Pression test: 10 bars pendant 1h.\n- Chauffe-eau: Groupe sécurité + vase expansion.`};
- if(q.match(/carrelage|quantité|m2/)) return {t:`CARRELAGE (Pro):\n- Quantité = Surface / surface carreau + 10% perte.\n- Ex: 20m2 avec carreau 40x40 (0.16m2) = 20/0.16=125 carreaux + 13 = 138 carreaux.\n- Mortier colle: 4kg/m2.`};
- if(q.match(/ferraillage|acier|semelle|poteau/)) return {t:`FERRAILLAGE (Génie Civil):\n- Semelle isolée: 6HA12 + cadre HA6 tous les 15cm.\n- Poteau 20x20: 4HA12 + cadres HA6 tous les 20cm.\n- Enrobage béton: 3cm minimum pour protéger acier.\n- Recouvrement: 50x diamètre.`};
- if(q.match(/devis|prix|coût|metre/)) return {t:`ESTIMATION PRIX GUINÉE (BTP):\n- Fondation: 150 000 GNF/ml\n- Élévation brique 15: 80 000 GNF/m2\n- Dalle pleine 12cm: 250 000 GNF/m2\n- Carrelage pose: 40 000 GNF/m2\n- Électricité complète: 35 000 GNF/m2. C'est estimatif Conakry 2026.`};
- // MATIÈRES MONDIALES
- if(q.match(/informatique/)) return {t:`INFORMATIQUE: C'est le traitement automatique de l'info. 3 parties: Matériel (PC), Logiciel (Windows, App), Réseau (Internet). Toi tu fais du développement web avec GitHub.`};
- if(q.match(/math|calcul|surface|volume/)) return {t:`MATHS BTP: Surface rectangle = L x l. Volume béton = Surface x épaisseur. Ex: Dalle 10m x 8m x 0.12m = 9.6 m3 béton. Périmètre = 2*(L+l).`};
- if(q.match(/guinée|conakry|kagbelen/)) return {t:`GUINÉE: Pays Afrique Ouest, 14M habitants, capitale Conakry. Richesses: bauxite, or. Kagbelen est dans Dubréka, zone en plein développement immobilier, idéal pour tes plans villa !`};
- if(q.match(/salut|bonjour/)) return {t:`Salut Balla ! 👋 Je suis AMATECHIA PRO V6. Maintenant je connais TOUTES les matières: BTP, Architecture, Génie Civil, Électricité, Plomberie, Informatique, Maths, et Monde. Demande "plan villa" et je t'envoie la photo direct !`};
+function save(){ localStorage.setItem('amatechia_meta_like_v1', JSON.stringify(chats)); }
+function newChat(){ currentId=null; chatDiv.innerHTML=`<div class="bubble ai">Nouveau chat ! Pose ta question, je garde tout comme Meta AI.</div>`; document.getElementById('sidebar').classList.remove('open'); }
+function clearHistory(){ if(confirm('Effacer tout l\'historique ?')){ chats=[]; save(); renderHistory(); newChat(); } }
 
- return {t:`Très bonne question sur "${quest}".\n\nEn tant qu'AMATECHIA PRO, je couvre:\n- BTP: béton, ferraillage, devis\n- Architecture: plans villa, R+1\n- Électricité, Plomberie\n- Informatique, Maths\n- Culture générale mondiale\n\nSois plus précis, exemple: "dosage béton B25" ou "plan maison 3 chambres" ou "c'est quoi la plomberie".`};
+function renderHistory(){
+ let h=document.getElementById('history');
+ if(chats.length==0){ h.innerHTML='<p style="color:#555;font-size:12px">Aucune question encore</p>'; return; }
+ h.innerHTML=chats.map(c=>`<div class="h-item" onclick="openChat(${c.id})">💬 ${c.title.substring(0,30)}</div>`).join('');
+}
+function openChat(id){
+ currentId=id; let c=chats.find(x=>x.id==id); if(!c) return;
+ chatDiv.innerHTML=c.msgs.map(m=>`<div class="bubble ${m.role=='user'?'user':'ai'}">${m.html||m.text}</div>`).join('');
+ document.getElementById('sidebar').classList.remove('open'); chatDiv.scrollTop=chatDiv.scrollHeight;
 }
 
-function go(){
- let v=document.getElementById('q').value.trim(); if(!v) return;
+async function send(){
+ let txt=document.getElementById('q').value.trim(); if(!txt) return;
  document.getElementById('q').value='';
- let r=getRep(v);
- DATA.unshift({q:v, r:r.t, plan:r.plan||false, prompt:r.prompt||v, date:new Date().toLocaleString()});
- save(); afficher(); parler(r.t);
+ 
+ if(!currentId){ currentId=Date.now(); chats.unshift({id:currentId,title:txt,msgs:[]}); }
+ let cur = chats.find(c=>c.id==currentId);
+ 
+ // Affiche user
+ cur.msgs.push({role:'user',text:txt,html:txt});
+ chatDiv.innerHTML+=`<div class="bubble user">${txt}</div>`;
+ let aiBubble = document.createElement('div'); aiBubble.className='bubble ai'; aiBubble.textContent='AMATECHIA écrit... ⏳'; chatDiv.appendChild(aiBubble);
+ chatDiv.scrollTop=chatDiv.scrollHeight;
+
+ try{
+   let isPlan = txt.toLowerCase().match(/plan|villa|maison|bâtiment|duplex|fondation/);
+   if(isPlan){
+     let imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent('professional architectural blueprint floor plan of '+txt+', modern villa, technical drawing with dimensions, detailed') }?width=1000&height=700&nologo=true&seed=${Date.now()}`;
+     let html = `Voici ton plan demandé : <b>${txt}</b> 🏗️\n\nC'est un plan professionnel que j'ai généré pour toi. Tu peux cliquer pour télécharger.\n\nAutres idées: "plan villa 4 chambres R+1", "plan fondation", "plan latérite"<br><img class="plan" src="${imgUrl}" onclick="window.open(this.src,'_blank')">`;
+     aiBubble.innerHTML=html;
+     cur.msgs.push({role:'assistant',text:`Plan ${txt}`,html:html});
+     parler(`Voici ton plan ${txt}, je l'ai généré. Clique sur l'image pour l'agrandir.`);
+   } else {
+     // MODE COMME META AI - Gratuit, sans clé, marche toujours
+     let systemPrompt = `Tu es AMATECHIA, IA de Balla Moussa Diawara en Guinée. Tu es comme Meta AI. Tu enseignes toutes matières: Maths, Physique, Chimie, BTP, Construction, Latérite, Electricité, Français, Anglais, Business, Entrepreneuriat. Réponds en français, clair, avec exemples concrets de Guinée, étape par étape. Question: ${txt}`;
+     let res = await fetch(`https://text.pollinations.ai/${encodeURIComponent(systemPrompt)}?model=openai`);
+     let reponse = await res.text();
+     if(!reponse || reponse.length<5) reponse = fallbackReponse(txt);
+     aiBubble.textContent=reponse;
+     cur.msgs.push({role:'assistant',text:reponse,html:reponse});
+     parler(reponse);
+   }
+ }catch(e){
+   let rep = fallbackReponse(txt);
+   aiBubble.textContent=rep;
+   cur.msgs.push({role:'assistant',text:rep,html:rep});
+   parler(rep);
+ }
+ save(); renderHistory(); chatDiv.scrollTop=chatDiv.scrollHeight;
 }
 
-function afficher(){
- let c=document.getElementById('chat');
- if(DATA.length==0){c.innerHTML='<p style="color:#888;text-align:center">Pose ta première question ci-dessus</p>';return;}
- c.innerHTML=DATA.map((x,i)=>{
-  let img='';
-  if(x.plan){
-    let u=`https://image.pollinations.ai/prompt/${encodeURIComponent('professional architectural blueprint plan of '+x.prompt+', floor plan with dimensions, technical drawing') }?width=900&height=600&nologo=true&seed=${i}`;
-    img=`<img class="plan" src="${u}" onclick="window.open(this.src,'_blank')" title="Clique pour agrandir"><br><small>Clique l'image pour agrandir / télécharger</small>`;
-  }
-  return `<div class="msg u"><b>Toi:</b> ${x.q}<br><small>${x.date}</small></div><div class="msg a"><b>AMATECHIA PRO:</b><br><div style="white-space:pre-wrap">${x.r}</div>${img}<br><button class="b2" onclick="parler(\`${x.r.replace(/[`']/g,'')}\`)">🔊 Lire</button> <button class="b3" onclick="DATA.splice(${i},1);save();afficher()">X</button></div>`;
- }).join('');
+function fallbackReponse(q){
+ q=q.toLowerCase();
+ if(q.includes('béton')||q.includes('latérite')) return `BTP Guinée - Latérite & Béton:\n- Latérite: Sol rouge, CBR>30, idéal remblai. Stabilisée à 8% ciment pour murs.\n- Béton B25: 350kg ciment, 400L sable, 800L gravier, 175L eau pour 1m3.\n- Fondation Guinée: 80cm profond minimum à cause des pluies.\n- 1 sac ciment 50kg = 0.033m3.`;
+ if(q.match(/x²|maths|équation|calcul/)) return `Maths: Donne ton exo exact.\nExemple: x²=4 => x=2 ou -2\n(x+a)²=x²+2ax+a²\nSurface dalle= Lxl, Volume=Surface x épaisseur.\nJe résous tout étape par étape comme Meta AI !`;
+ if(q.includes('plan')||q.includes('villa')) return `Pour les plans, tape exactement: "plan villa 3 chambres" et je t'envoie la photo direct. Je génère tous types: R+1, duplex, fondation.`;
+ return `Je suis AMATECHIA comme Meta AI ! ✨\n\nJe garde toutes tes questions à gauche (historique).\nJe fais tout:\n📚 Maths, Physique, Chimie\n🏗️ BTP, Latérite, Béton, Devis, Plans\n💼 Business, Français\n\nPose une question précise: ex "dosage béton", "plan villa", "résous équation"`;
 }
 
-function parler(txt){
+function parler(t){
  synth.cancel();
- let parts=txt.split(/[\n.!?]+/).filter(p=>p.trim().length>3);
- let queue=[]; parts.forEach(p=>{ if(p.length>100) queue.push(...(p.match(/.{1,80}(\s|$)/g)||[p])); else queue.push(p); });
- let idx=0; document.getElementById('etat').textContent='Lecture...';
- (function next(){ if(idx>=queue.length){document.getElementById('etat').textContent='Fini ✅';return;} let u=new SpeechSynthesisUtterance(queue[idx++]); u.lang='fr-FR'; u.rate=parseFloat(document.getElementById('vit').value); u.onend=next; synth.speak(u); })();
+ let clean = t.replace(/<[^>]*>/g,'').substring(0,1000);
+ let parts = clean.split(/[.!\n]+/).filter(p=>p.trim().length>3);
+ let i=0;
+ (function next(){
+  if(i>=parts.length) return;
+  let u=new SpeechSynthesisUtterance(parts[i++]); u.lang='fr-FR'; u.rate=0.9; u.onend=next; synth.speak(u);
+ })();
 }
-afficher();
+function startVoice(){
+ let Rec = window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Rec){ alert('Micro non supporté sur ce navigateur, écris ta question'); return; }
+ let rec=new Rec(); rec.lang='fr-FR'; rec.start();
+ rec.onresult=e=>{ document.getElementById('q').value=e.results[0][0].transcript; send(); };
+}
+
+renderHistory();
 </script>
 </body>
 </html>
