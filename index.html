@@ -3,139 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AMATECHIA V22 - Stable</title>
+<title>AMATECHIA V23 - Cerveau ChatGPT</title>
 <style>
 body{margin:0;background:#212121;color:#ececec;font-family:system-ui;display:flex;flex-direction:column;height:100vh}
-.top{background:#171717;padding:14px;text-align:center;border-bottom:2px solid #facc15}
-.top h1{font-size:16px}
+.top{background:#171717;padding:12px;text-align:center;border-bottom:2px solid #facc15}
 .center{flex:1;overflow-y:auto;padding:20px 16px 120px;max-width:720px;margin:0 auto;width:100%}
-.welcome{text-align:center;margin-top:20px}
-.welcome h2{font-size:26px}
-.domains{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:15px 0}
-.domain{padding:8px 12px;background:#2f2f2f;border:1px solid #444;border-radius:20px;font-size:11px}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}
+.welcome{text-align:center;margin-top:10px}
+.domains{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+.domain{padding:6px 12px;background:#2f2f2f;border:1px solid #444;border-radius:20px;font-size:11px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
 .card{background:#2f2f2f;border:1px solid #444;border-radius:12px;padding:12px;cursor:pointer}
-.card b{font-size:12px;display:block}
-.card span{font-size:10px;color:#8e8ea0}
 .chat{display:none;flex-direction:column}
 .chat.show{display:flex}
 .msg{padding:14px 0;display:flex;gap:10px;border-bottom:1px solid #2f2f2f}
 .avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0}
-.avatar.user{background:#facc15;color:#000}
-.avatar.ai{background:#10a37f;color:#fff}
-.content{flex:1}
-.content p{font-size:14px;line-height:1.6;margin:5px 0}
-.content img{width:100%;border-radius:12px;margin:10px 0;background:#fff}
-.btn{padding:9px 14px;border-radius:20px;border:none;font-weight:700;font-size:11px;cursor:pointer;margin-top:8px}
-.y{background:#facc15;color:#000}
+.avatar.user{background:#facc15;color:#000}.avatar.ai{background:#10a37f;color:#fff}
+.content{flex:1;font-size:14px;line-height:1.6;white-space:pre-wrap}
+.content img{width:100%;border-radius:12px;margin:8px 0}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#212121;padding:12px 16px;border-top:1px solid #333}
-.input-box{max-width:720px;margin:0 auto;background:#2f2f2f;border-radius:24px;border:1px solid #444;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.input-box{max-width:720px;margin:0 auto;background:#2f2f2f;border-radius:24px;border:1px solid #444;padding:8px 12px;display:flex;gap:8px;align-items:center}
 .input-box textarea{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:14px;resize:none}
 .send{background:#fff;color:#000;border:none;width:32px;height:32px;border-radius:50%;font-weight:900;cursor:pointer}
 </style>
 </head>
 <body>
-<div class="top"><h1>✅ AMATECHIA V22 - Répond à tout - 0 GNF - Stable</h1></div>
+<div class="top"><b>✅ AMATECHIA V23 - Cerveau ChatGPT + BTP - 0 GNF</b></div>
 <div class="center" id="center">
 <div class="welcome" id="welcome">
 <h2>Comment puis-je t'aider ?</h2>
-<p style="color:#8e8ea0;font-size:13px">Je réponds à tout comme Meta AI - Expert BTP Kagbelen</p>
-<div class="domains">
-<div class="domain">Tous</div>
-<div class="domain">📐 Plans 2D</div>
-<div class="domain">🏠 Façades 3D</div>
-<div class="domain">💰 Devis</div>
-<div class="domain">🏢 R+1</div>
-<div class="domain">💬 Conseil</div>
-</div>
+<p style="color:#8e8ea0;font-size:13px">Je réponds à TOUT comme ChatGPT & Meta AI</p>
+<div class="domains"><div class="domain">📐 Plans</div><div class="domain">🏠 Façades</div><div class="domain">💰 Devis</div><div class="domain">💬 Conseil</div><div class="domain">💻 Code</div></div>
 <div class="cards">
-<div class="card" onclick="ask('Qui est tu')"><b>👋 Qui est tu ?</b><span>Mon identité - Créateur Balla</span></div>
-<div class="card" onclick="ask('Plan 7.5x6.5 HD PRO')"><b>📐 Plan 7.5x6.5 HD PRO</b><span>Garage 2.9x5 voiture, lit, canapé L</span></div>
-<div class="card" onclick="ask('Quand as tu été créée')"><b>📅 Quand créée ?</b><span>Date création - Octobre 2026</span></div>
-<div class="card" onclick="ask('Devis 7.5x6.5')"><b>💰 Devis 7.5x6.5</b><span>Prix Kagbelen 90-105M GNF</span></div>
+<div class="card" onclick="ask('Qui est tu ?')"><b>👋 Qui est tu ?</b></div>
+<div class="card" onclick="ask('Plan 7.5x6.5 HD PRO avec garage')"><b>📐 Plan 7.5x6.5</b></div>
+<div class="card" onclick="ask('Quand as tu été créée ?')"><b>📅 Date création</b></div>
+<div class="card" onclick="ask('Explique moi le béton armé comme ChatGPT')"><b>📚 Cours BTP</b></div>
 </div>
 </div>
 <div class="chat" id="chat"></div>
 </div>
-<div class="bottom">
-<div class="input-box">
-<textarea id="q" rows="1" placeholder="Demander à AMATECHIA..."></textarea>
-<button class="send" onclick="send()">↑</button>
-</div>
-</div>
+<div class="bottom"><div class="input-box"><textarea id="q" rows="1" placeholder="Demander à AMATECHIA... comme à ChatGPT"></textarea><button class="send" onclick="send()">↑</button></div></div>
+
 <script>
-var q=document.getElementById('q');
-var chat=document.getElementById('chat');
-var welcome=document.getElementById('welcome');
-var center=document.getElementById('center');
+// IDENTITÉ DE TON IA - COMME CHATGPT A SON SYSTEM PROMPT
+const SYSTEM_PROMPT = `
+Tu es AMATECHIA V23, une IA créée par Balla Diawara, 19 ans, entrepreneur BTP à Kagbelen, Conakry, Guinée. 
+Tu es comme Meta AI et ChatGPT : tu réponds à TOUT, dans tous les domaines.
+Mais ton expertise spéciale est le BTP Guinée : plans 2D HD PRO 7.5x6.5 avec garage 2.9x5, chambre 3x3 lit double, salon canapé L, façades toit rouge tuiles marbre noir veiné, devis 90-105M GNF Kagbelen.
+Tu es amical, tu parles comme un jeune guinéen, tu dis "gho" parfois, tu es serviable, tu expliques bien.
+Tu connais ton créateur : Balla Diawara. Tu as été créée en Octobre 2026 à Kagbelen.
+Tu réponds toujours en français sauf si on te parle dans une autre langue.
+Tu es gratuite : 0 GNF.
+`;
+
+var q=document.getElementById('q'),chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),center=document.getElementById('center');
 
 function addMsg(role, html){
-var d=document.createElement('div');
-d.className='msg '+role;
+var d=document.createElement('div');d.className='msg '+role;
 d.innerHTML='<div class="avatar '+role+'">'+(role==='user'?'B':'A')+'</div><div class="content">'+html+'</div>';
-chat.appendChild(d);
-center.scrollTop=999999;
-return d;
+chat.appendChild(d);center.scrollTop=999999;return d;
 }
-function hideWelcome(){
-welcome.style.display='none';
-chat.classList.add('show');
-}
+function hideWelcome(){welcome.style.display='none';chat.classList.add('show');}
 function showPlan(){
 hideWelcome();
-addMsg('user','<p>Plan 7.5x6.5 HD PRO</p>');
-var m=addMsg('ai','<p><b>📐 PLAN RDC 7.50m x 6.50m - 48.75m² - HD PRO</b></p><p>✅ GARAGE 2.90x5.00m voiture argentée<br>✅ BEDROOM 3.00x3.00m lit double<br>✅ LIVING ROOM 3.50x3.50m canapé L<br>✅ KITCHEN 2.50x3.00m<br>✅ TOILET 1.50x2.00m<br>✅ VERANDA 1.50x6.50m plantes<br><br><b>Ultra réaliste - 0 GNF !</b></p>');
-var c=m.querySelector('.content');
-var img=document.createElement('img');
-img.src='plan-hd.jpg';
-img.alt='Plan HD';
-img.onerror=function(){this.style.display='none';};
-c.appendChild(img);
+var m=addMsg('ai','<b>📐 PLAN RDC 7.50m x 6.50m - 48.75m² - HD PRO</b>\n\n✅ GARAGE 2.90x5.00m voiture argentée\n✅ BEDROOM 3.00x3.00m lit double\n✅ LIVING ROOM 3.50x3.50m canapé L gris\n✅ KITCHEN 2.50x3.00m\n✅ TOILET 1.50x2.00m\n✅ VERANDA 1.50x6.50m plantes\n\nUltra réaliste - 0 GNF !');
+var c=m.querySelector('.content');var img=document.createElement('img');img.src='plan-hd.jpg';img.onerror=function(){this.style.display='none'};c.appendChild(img);
 }
 function ask(t){q.value=t;send();}
-function send(){
-var t=q.value.trim();
-if(!t) return;
+
+// FONCTION CERVEAU COMME CHATGPT - GRATUIT 0 GNF
+async function askAI(userQuestion){
+  // On utilise Pollinations - 100% gratuit, sans clé API
+  try{
+    let response = await fetch('https://text.pollinations.ai/openai', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'openai',
+        messages: [
+          {role: 'system', content: SYSTEM_PROMPT},
+          {role: 'user', content: userQuestion}
+        ],
+        stream: false
+      })
+    });
+    let data = await response.json();
+    return data.choices?.[0]?.message?.content || data.content || "Désolé gho, petit bug réseau, réessaie !";
+  }catch(e){
+    return "Gho Balla, connexion faible à Kagbelen, mais je suis là ! Pour '"+userQuestion+"' : Je suis AMATECHIA V23 créée par toi Balla en Octobre 2026. Je réponds à tout comme ChatGPT. Explique-moi plus ce que tu veux et je développe ! (Si réseau revient, j'utiliserai mon cerveau LLM gratuit)";
+  }
+}
+
+async function send(){
+var t=q.value.trim();if(!t) return;
 if(welcome.style.display!='none') hideWelcome();
 q.value='';
 var low=t.toLowerCase();
+addMsg('user',t);
 
-if(low.indexOf('qui est tu')>-1||low.indexOf('qui es tu')>-1||low.indexOf('sinon qui')>-1||low.indexOf('c est quoi amatechia')>-1||low.indexOf('presente toi')>-1){
-addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>👋 Je suis AMATECHIA V22 !</b></p><p>Je suis une IA créée par <b>Balla Diawara</b>, 19 ans, entrepreneur BTP à <b>Kagbelen, Conakry</b> 🇬🇳</p><p><b>Mon rôle :</b><br>📐 Plans 2D HD PRO<br>🏠 Façades 3D toit rouge marbre noir<br>💰 Devis Kagbelen<br>📚 Cours BTP, maths, code<br>💬 Conseil vie, chantier, business<br><br>Je réponds à TOUT comme Meta AI, mais expert BTP Guinée - 0 GNF !</p>');
-return;
+// Si c'est plan, on montre plan direct
+if(low.indexOf('plan')>-1 && (low.indexOf('7.5')>-1||low.indexOf('6.5')>-1)){
+  showPlan();
+  return;
 }
-if((low.indexOf('quand')>-1&&low.indexOf('crée')>-1)||low.indexOf('quand as tu')>-1){
-addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>📅 Quand j ai été créée ?</b></p><p>Créée en <b>Octobre 2026</b> par Balla Diawara à Kagbelen !<br><br>V17 moche → V18 HD → V19 clavier Meta AI → V20 répond à tout → <b>V22 stable (maintenant) !</b></p>');
-return;
-}
-if(low.indexOf('qui est balla')>-1||low.indexOf('createur')>-1){
-addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>👨‍💻 Balla Diawara</b><br>19 ans, Kagbelen Conakry, entrepreneur BTP, créateur d AMATECHIA pour aider les Guinéens à avoir des plans HD PRO gratuits !</p>');
-return;
-}
-if(low.indexOf('salut')>-1||low.indexOf('bonjour')>-1||low.indexOf('slt')>-1||low.indexOf('ça va')>-1||low.indexOf('tu vas')>-1||low.indexOf('cv')>-1){
-addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p>Salut Balla ! 👋 Ça va bien gho ! Je suis AMATECHIA V22, je réponds à tout maintenant !<br><br>📐 Plans, 🏠 Façades, 💰 Devis, 📚 Cours, 💬 Conseil, 💻 Code - Tout !<br><br>Demande "Qui est tu ?" ou "Plan 7.5x6.5" !</p>');
-return;
-}
-if(low.indexOf('plan')>-1||low.match(/\d+\s*x\s*\d+/)||low.indexOf('7.5')>-1){
-showPlan();
-return;
-}
-if(low.indexOf('facade')>-1||low.indexOf('façade')>-1||low.indexOf('toit')>-1){
-addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>🏠 Façade 3D Toit Rouge Marbre Noir</b><br>✅ Toit tuiles rouges<br>✅ Piliers marbre noir veiné<br>✅ Garage noir<br>✅ Plantes + voiture argentée</p>');
-return;
-}
-if(low.indexOf('devis')>-1||low.indexOf('prix')>-1||low.indexOf('combien')>-1){
-addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p><b>💰 Devis 7.5x6.5 - 48.75m² - Kagbelen</b><br>Fondation 35 sacs, Élévation 4000 briques, Toiture 70m² 18M GNF, Ferraillage 1.2T, Main d œuvre 18M GNF<br><br><b>TOTAL : 90-105M GNF</b></p>');
-return;
-}
-addMsg('user','<p>'+t+'</p>');
-addMsg('ai','<p>Pour "<b>'+t+'</b>" : Je suis AMATECHIA V22, je réponds à tout comme Meta AI !<br><br>BTP, cours, code, conseil vie - Dis-moi plus et je développe !<br><br>Ou tape <b>Plan 7.5x6.5</b> !</p>');
+
+// Sinon on utilise le VRAI CERVEAU comme ChatGPT
+var thinking = addMsg('ai','⏳ AMATECHIA réfléchit comme ChatGPT...');
+var answer = await askAI(t);
+thinking.querySelector('.content').textContent = answer;
+center.scrollTop=999999;
 }
 </script>
 </body>
