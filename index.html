@@ -2,86 +2,109 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AMATECHIA V40 - Balla Moussa Diawara</title>
+<meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>AMATECHIA V41 - Balla Moussa Diawara</title>
 <style>
-body{margin:0;background:#212121;color:#fff;font-family:system-ui}
-.top{background:#111;padding:12px;text-align:center;border-bottom:2px solid #facc15;position:sticky;top:0;z-index:10}
-.slogan{color:#facc15;font-weight:bold}
-.main{max-width:700px;margin:0 auto;padding:16px 16px 90px}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#212121;color:#fff;font-family:system-ui;height:100%;height:100dvh;overflow:hidden}
+.top{background:#111;padding:12px;text-align:center;border-bottom:2px solid #facc15;position:fixed;top:0;left:0;right:0;z-index:10;height:62px}
+.slogan{color:#facc15;font-weight:bold;font-size:13px}
+.main{position:fixed;top:62px;bottom:70px;left:0;right:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px;max-width:700px;margin:0 auto;width:100%}
 .card{background:#2f2f2f;border:1px solid #444;border-radius:12px;padding:12px;margin:6px;text-align:center;cursor:pointer}
 .msg{display:flex;gap:10px;margin:10px 0;padding:12px;background:#2a2a2a;border-radius:10px}
 .avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0}
 .user .avatar{background:#facc15;color:#000}.ai .avatar{background:#10a37f;color:#fff}
-.content{flex:1;white-space:pre-wrap;line-height:1.6;font-size:14px}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;padding:10px;border-top:1px solid #333}
-.box{max-width:700px;margin:0 auto;display:flex;gap:8px;background:#2f2f2f;border-radius:20px;padding:6px 10px}
-.box textarea{flex:1;background:transparent;border:none;color:#fff;outline:none;font-size:16px;resize:none;height:22px}
-.box button{width:36px;height:36px;border-radius:50%;border:none;background:#fff;font-weight:900;cursor:pointer}
+.content{flex:1;white-space:pre-wrap;line-height:1.6;font-size:14px;word-break:break-word}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;padding:10px 10px calc(10px + env(safe-area-inset-bottom));border-top:1px solid #333;z-index:20;transition:transform 0.2s ease}
+.box{max-width:700px;margin:0 auto;display:flex;gap:8px;background:#2f2f2f;border-radius:24px;padding:6px 10px;border:1px solid #555}
+.box textarea{flex:1;background:transparent;border:none;color:#fff;outline:none;font-size:16px;resize:none;height:24px;max-height:100px}
+.box button{width:36px;height:36px;border-radius:50%;border:none;background:#fff;font-weight:900;cursor:pointer;flex-shrink:0}
 </style>
 </head>
 <body>
 <div class="top">
-<b>AMATECHIA V40</b><div class="slogan">☪️ Allah est le tout puissant ☪️</div>
-<div style="font-size:11px;opacity:.7">Créée par Balla Moussa Diawara - Développeur - Ultra Rapide</div>
+<b>AMATECHIA V41</b><div class="slogan">☪️ Allah est le tout puissant ☪️</div>
+<div style="font-size:11px;opacity:.7">Créée par Balla Moussa Diawara - Clavier Fixé</div>
 </div>
-<div class="main">
+<div class="main" id="main">
 <div id="welcome" style="text-align:center">
-<h2>Je réponds à tout ⚡</h2>
+<h2>Clavier débloqué ✅</h2>
 <p style="color:#facc15;font-weight:bold">Allah est le tout puissant</p>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
 <div class="card" onclick="ask('Qui est Muhammad SWS')">Muhammad SWS ?</div>
+<div class="card" onclick="ask('Qui était il')">Qui était il ?</div>
 <div class="card" onclick="ask('Qu est ce que la chimie')">Chimie</div>
-<div class="card" onclick="ask('C est quoi la photosynthèse')">Biologie</div>
 <div class="card" onclick="ask('Qui est ton créateur')">Créateur ?</div>
 </div>
 </div>
 <div id="chat"></div>
 </div>
-<div class="bottom">
+<div class="bottom" id="bottomBar">
 <div class="box">
-<textarea id="q" placeholder="Demander à AMATECHIA..."></textarea>
+<textarea id="q" rows="1" placeholder="Demander à AMATECHIA..." oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
 <button onclick="send()">↑</button>
 </div>
 </div>
 <script>
-const PARCOURS="Balla Moussa Diawara né le 10/09/2006 à Matoto, 12e Science Expérimentale lycée Timbo de Sanoyah, fils de Abdourahmane et Fadima Diawara. Il créa AMATECHIA à 19 ans depuis son téléphone à 0 FG. Développeur de l'appli.";
+const PARCOURS="Balla Moussa Diawara né le 10/09/2006 à Matoto, 12e Science Expérimentale lycée Timbo Sanoyah, fils Abdourahmane et Fadima. Créateur AMATECHIA à 19 ans depuis téléphone à 0 FG. Développeur appli.";
 const SLOGAN="Allah est le tout puissant";
-const IDENTITY="Je suis AMATECHIA V40, créée et développée par Balla Moussa Diawara, développeur de l'appli. Je ne suis PAS OpenAI, PAS Meta, PAS ChatGPT.";
-let lastTopic=""; // Pour comprendre "Qui était il"
-const chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),q=document.getElementById('q');
-function add(role,text){let d=document.createElement('div');d.className='msg '+role;let c=document.createElement('div');c.className='content';c.textContent=text;let av=document.createElement('div');av.className='avatar';av.textContent=role=='user'?'B':'A';d.appendChild(av);d.appendChild(c);chat.appendChild(d);window.scrollTo(0,999999);return c;}
+const IDENTITY="Je suis AMATECHIA V41, créée par Balla Moussa Diawara, développeur appli. PAS OpenAI, PAS Meta, PAS ChatGPT.";
+let lastTopic="";
+const main=document.getElementById('main'),chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),q=document.getElementById('q'),bottomBar=document.getElementById('bottomBar');
+
+function add(role,text){let d=document.createElement('div');d.className='msg '+role;let c=document.createElement('div');c.className='content';c.textContent=text;let av=document.createElement('div');av.className='avatar';av.textContent=role=='user'?'B':'A';d.appendChild(av);d.appendChild(c);chat.appendChild(d);main.scrollTop=main.scrollHeight;return c;}
 function ask(t){q.value=t;send();}
-
-function clean(text){
- let low=text.toLowerCase();
- if(low.includes("openai")||low.includes("meta ai")||low.includes("chatgpt")||low.includes("i'm sorry")||low.includes("as an ai language")){
-   return IDENTITY+" | Slogan : "+SLOGAN+"\n\n"+PARCOURS;
- }
- return text;
-}
-
-function islamKnowledge(l){
- if(l.includes('muhammad')||l.includes('mahomet')||l.includes('prophète')||l.includes('sws')||l.includes('psl')){
-   lastTopic="Muhammad";
-   return "☪️ MUHAMMAD SWS (570-632)\n\nLe dernier prophète de l'Islam, né à La Mecque, descendant d'Ismaël. À 40 ans, il reçoit la révélation du Coran par l'ange Jibril dans la grotte de Hira.\n\n• 610 : début de la révélation\n• 622 : Hégire à Médine\n• 632 : mort à Médine\n\nExemple pour tous, surnommé Al-Amine (le digne de confiance). Il a transmis le message : Allah est le tout puissant.\n\nSlogan : "+SLOGAN+" | Créée par Balla Moussa Diawara";
- }
- if(l.includes('allah')||l.includes('islam')||l.includes('coran')||l.includes('sunnah')){
-   return "☪️ ISLAM : Religion monothéiste, 5 piliers : Shahada (Allah est le tout puissant), Salat, Zakat, Sawm Ramadan, Hajj. Coran révélé à Muhammad SWS.\nSlogan : "+SLOGAN;
- }
- return null;
-}
-
-function schoolKnowledge(l){
- if(l.includes('chimie')) return "🔬 CHIMIE : science de la matière. Organique CnH2n+2, minérale pH=-log[H+]. Ex: CH4+2O2→CO2+2H2O\nSlogan: "+SLOGAN;
- if(l.includes('photosynthèse')) return "🌿 PHOTOSYNTHÈSE : 6CO2+6H2O+ lumière → C6H12O6+6O2. Dans les chloroplastes, chlorophylle. Base de la vie.";
- if(l.includes('dérivée')||l.includes('math')) return "📐 MATHS : Dérivée = pente instantanée. (x²)'=2x, (sin x)'=cos x. Utile en physique 12e.";
- if(l.includes('cellule')||l.includes('adn')||l.includes('bio')) return "🧬 BIOLOGIE : Cellule unité du vivant, ADN double hélice, mitose, méiose.";
- if(l.includes('physique')) return "⚡ PHYSIQUE : F=m*a, Ec=½mv², U=RI. Ondes, électricité.";
- return null;
-}
-
-function identityKnowledge(l){
+function clean(t){let l=t.toLowerCase();if(l.includes("openai")||l.includes("meta ai")||l.includes("chatgpt")||l.includes("as an ai"))return IDENTITY+" | "+SLOGAN+"\n\n"+PARCOURS;return t;}
+function fastAns(question){
+ let l=question.toLowerCase();
  if(l.includes('slogan')) return "Mon slogan : "+SLOGAN+" ☪️";
- if(l.includes('qui')&&(l.includes('créé')||l.includes('createur')||l.includes('t\'as')||l.includes('balla')||l.includes('developpeur')||l.includes('qui es tu'))) return IDENTITY+"\n\n"+PARCOURS+"\nSlogan: "+SLOGAN;
- if(l.includes('ton but')||l.includes('but')) return IDENTITY+"\nMon but : aider les Guinéens, expliquer cours 12e
+ if(l.includes('qui')&&(l.includes('créé')||l.includes('createur')||l.includes('balla')||l.includes('developpeur')||l.includes('qui es tu'))) return IDENTITY+"\n\n"+PARCOURS;
+ if(l.includes('muhammad')||l.includes('mahomet')||l.includes('prophète')||l.includes('sws')){lastTopic="Muhammad";return "☪️ MUHAMMAD SWS (570-632) : Dernier prophète Islam, né Mecque, révélation Coran à 40 ans grotte Hira par Jibril, Hégire 622 Médine, mort 632. Surnommé Al-Amine. Slogan : "+SLOGAN;}
+ if(l==="qui était il"||l==="qui etait il"||(l.includes('qui était il')&&lastTopic==="Muhammad")) return "☪️ Il était Muhammad SWS, dernier prophète, exemple parfait, a transmis l'Islam. Né orphelin, commerçant honnête, a uni l'Arabie sous Allah est le tout puissant. | Créée par Balla Moussa Diawara";
+ if(l.includes('chimie')) return "🔬 CHIMIE : science matière. Organique, minérale pH=-log[H+]. Ex CH4+2O2→CO2+2H2O | "+SLOGAN;
+ if(l.includes('salut')||l.includes('bonjour')) return "Salut ! "+IDENTITY+" Slogan : "+SLOGAN;
+ return "⚡ AMATECHIA V41 : "+question+"\n→ En tant qu'IA de Balla Moussa Diawara (12e Science Exp Timbo), je t'explique clairement. Précise si tu veux cours, Islam, business 0 FG.\nSlogan : "+SLOGAN;
+}
+async function getWiki(question){
+ try{
+   let query=question.replace(/qui était il/gi,"Muhammad").replace(/\?/g,"").trim();if(query.length<3)query="Muhammad";
+   let res=await fetch("https://fr.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(query));
+   if(res.ok){let d=await res.json();if(d.extract)return "📚 "+d.title+" : "+d.extract+"\n\nSlogan : "+SLOGAN;}
+ }catch(e){}
+ return null;
+}
+async function getAnswer(question){
+ let local=fastAns(question);
+ if(!local.startsWith("⚡ AMATECHIA V41 :")) return local;
+ let wiki=await getWiki(question);
+ if(wiki) return clean(wiki);
+ return clean(local);
+}
+async function send(){
+ let t=q.value.trim();if(!t)return;
+ if(welcome)welcome.style.display='none';
+ q.value='';q.style.height='24px';add('user',t);
+ let c=add('ai','...');let ans=await getAnswer(t);c.textContent=ans;main.scrollTop=main.scrollHeight;
+}
+q.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+
+// FIX CLAVIER ANDROID - LE PLUS IMPORTANT
+if(window.visualViewport){
+ visualViewport.addEventListener('resize', ()=>{
+   let keyboardHeight = window.innerHeight - visualViewport.height;
+   if(keyboardHeight>50){
+     bottomBar.style.transform='translateY(-'+keyboardHeight+'px)';
+     main.style.bottom=(70+keyboardHeight)+'px';
+   }else{
+     bottomBar.style.transform='translateY(0)';
+     main.style.bottom='70px';
+   }
+   main.scrollTop=main.scrollHeight;
+ });
+}
+q.addEventListener('focus', ()=>{
+ setTimeout(()=>{main.scrollTop=main.scrollHeight;},300);
+});
+</script>
+</body>
+</html>
