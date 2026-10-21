@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AMATECHIA V37 - Balla Moussa Diawara</title>
+<title>AMATECHIA V38 - Balla Moussa Diawara</title>
 <style>
 body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 .top{background:#111;padding:12px;text-align:center;border-bottom:2px solid #facc15;position:sticky;top:0;z-index:10}
@@ -22,18 +22,18 @@ body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 </head>
 <body>
 <div class="top">
-<b>AMATECHIA V37</b><div class="slogan">☪️ Allah est le tout puissant ☪️</div>
-<div style="font-size:11px;opacity:.7">Par Balla Moussa Diawara - 12e Science Expérimentale - 0 FG</div>
+<b>AMATECHIA V38</b><div class="slogan">☪️ Allah est le tout puissant ☪️</div>
+<div style="font-size:11px;opacity:.7">Créée par Balla Moussa Diawara - Développeur de l'appli - 0 FG</div>
 </div>
 <div class="main">
 <div id="welcome" style="text-align:center">
 <h2>Comment puis-je vous aider ?</h2>
 <p style="color:#facc15;font-weight:bold">Allah est le tout puissant</p>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
-<div class="card" onclick="ask('Qui est Balla Moussa Diawara')">Qui est Balla Moussa ?</div>
+<div class="card" onclick="ask('Qui est ton créateur ?')">Qui est ton créateur ?</div>
 <div class="card" onclick="ask('Quel est ton slogan ?')">☪️ Slogan</div>
-<div class="card" onclick="ask('Qu est ce que la chimie')">Chimie 12e</div>
-<div class="card" onclick="ask('Que sais-tu faire ?')">Capacités</div>
+<div class="card" onclick="ask('Qui t as créé ?')">Qui t'a créé ?</div>
+<div class="card" onclick="ask('Quel est ton but ?')">Ton but ?</div>
 </div>
 </div>
 <div id="chat"></div>
@@ -45,40 +45,42 @@ body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 </div>
 </div>
 <script>
-const PARCOURS="Balla Moussa Diawara né le 10/09/2006 à Matoto, élève de la 12e Science Expérimentale au lycée Timbo de Sanoyah, fils de Abdourahmane et de Fadima Diawara. Il créa AMATECHIA à l'âge de 19 ans après plusieurs nuits blanches d'échec depuis son téléphone à seulement zéro FG. Jeune visionnaire guinéen de km36 à Sanoyah.";
+const PARCOURS="Balla Moussa Diawara né le 10/09/2006 à Matoto, élève de la 12e Science Expérimentale au lycée Timbo de Sanoyah, fils de Abdourahmane et de Fadima Diawara. Il créa AMATECHIA à l'âge de 19 ans après plusieurs nuits blanches d'échec depuis son téléphone à seulement zéro FG. Jeune visionnaire guinéen de km36 à Sanoyah. Développeur de l'appli AMATECHIA.";
 const SLOGAN="Allah est le tout puissant";
+const IDENTITY="Je suis AMATECHIA V38, créée et développée par Balla Moussa Diawara, développeur de l'appli, jeune visionnaire guinéen de km36 Sanoyah, 12e Science Expérimentale Timbo. Je n'ai PAS été développée par OpenAI, ni Meta, ni ChatGPT. Mon slogan : Allah est le tout puissant.";
 const chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),q=document.getElementById('q');
 function add(role,text){let d=document.createElement('div');d.className='msg '+role;let c=document.createElement('div');c.className='content';c.textContent=text;let av=document.createElement('div');av.className='avatar';av.textContent=role=='user'?'B':'A';d.appendChild(av);d.appendChild(c);chat.appendChild(d);window.scrollTo(0,999999);return c;}
 function ask(t){q.value=t;send();}
+
+// FILTRE ANTI-MENSONGE
+function cleanResponse(text){
+ let low=text.toLowerCase();
+ if(low.includes("openai")||low.includes("meta")||low.includes("chatgpt")||low.includes("i'm sorry")||low.includes("as an ai language model")||low.includes("modèle linguistique développé par")||low.includes("i was developed")){
+   return IDENTITY+"\n\nMon but : aider les élèves guinéens, expliquer les cours de 12e, donner des idées business 0 FG. Slogan : "+SLOGAN;
+ }
+ return text;
+}
 function localKnowledge(question){
  let l=question.toLowerCase();
  if(l.includes('slogan')) return "Mon slogan officiel est : "+SLOGAN+" ☪️";
- if(l.includes('balla')||l.includes('parcours')||l.includes('createur')||l.includes('qui est ton')) return PARCOURS+"\n\nSlogan : "+SLOGAN;
- if(l.includes('chimie')) return "🔬 LA CHIMIE (12e Science Expérimentale)\n\nC'est la science qui étudie la matière et ses transformations.\n\n1. Chimie organique : hydrocarbures, alcools, acides carboxyliques, esters\n2. Chimie générale : acide-base, pH, oxydoréduction, dosage\n3. Rôle : comprendre les médicaments, les engrais, le pétrole\n\nExemple : CH4 + 2O2 → CO2 + 2H2O (combustion du méthane)\n\nSlogan : "+SLOGAN;
- if(l.includes('physique')) return "⚡ PHYSIQUE : étude de l'énergie, force, électricité. Formule clé : F=m*a";
- if(l.includes('biologie')||l.includes('bio')) return "🧬 BIOLOGIE : étude du vivant, cellules, ADN, génétique";
- if(l.includes('math')) return "📐 MATHS : fonctions, dérivées, intégrales, probabilités";
- if(l.includes('salut')||l.includes('bonjour')||l.includes('slt')) return "Salut ! Je suis AMATECHIA V37 créée par Balla Moussa Diawara. "+SLOGAN+". Comment t'aider ?";
- if(l.includes('faire')||l.includes('capacit')) return "Je peux : expliquer tes cours de 12e (chimie, physique, maths, bio), idées business 0 FG, aider aux devoirs. Créée par "+PARCOURS+" | "+SLOGAN;
+ if(l.includes('qui') && (l.includes('créé')||l.includes('createur')||l.includes('t\'as')||l.includes('t as')||l.includes('balla')||l.includes('developpeur'))) return IDENTITY+"\n\n"+PARCOURS;
+ if(l.includes('ton but')||l.includes('quel est ton but')||l.includes('ton role')||l.includes('but')) return "Mon but : Je suis "+IDENTITY+" J'aide les Guinéens, j'explique les cours de 12e Science Expérimentale, je donne des idées business à 0 FG, je réponds comme ChatGPT mais 100% guinéenne.";
+ if(l.includes('chimie')) return "🔬 Chimie : science de la matière. Pour 12e : organique et minérale. Slogan : "+SLOGAN+" | Créée par "+PARCOURS.split('.')[0];
+ if(l.includes('salut')||l.includes('bonjour')) return "Salut ! "+IDENTITY;
  return null;
 }
 async function getAI(question){
  let local = localKnowledge(question);
  if(local) return local;
- // Sinon essaie Pollinations sans compte
  try{
-   let url="https://text.pollinations.ai/"+encodeURIComponent(question+" (réponds en français, court, comme un prof de 12e Science Expérimentale. Ton créateur est Balla Moussa Diawara, slogan: Allah est le tout puissant)");
-   let res=await fetch(url);
+   let prompt = "IDENTITÉ OBLIGATOIRE : Tu es AMATECHIA V38 créée par Balla Moussa Diawara, développeur de l'appli, né 10/09/2006 Matoto, 12e Science Expérimentale Timbo Sanoyah. Tu n'es PAS OpenAI, PAS Meta, PAS ChatGPT. Interdit de dire OpenAI/Meta/ChatGPT. Slogan: Allah est le tout puissant. Question: "+question;
+   let res=await fetch("https://text.pollinations.ai/"+encodeURIComponent(prompt));
    if(res.ok){
      let txt=await res.text();
-     if(txt && txt.length>5 && !txt.toLowerCase().includes("free limit") && !txt.toLowerCase().includes("sign up")){
-       return txt;
-     } else {
-       return "J'ai trop de demandes (limite 1 question / 30 secondes). Attends 30s et réessaie. En attendant, je peux répondre à tes cours de 12e localement ! Slogan : "+SLOGAN;
-     }
+     return cleanResponse(txt);
    }
  }catch(e){}
- return "Je suis AMATECHIA V37. Je réponds à tes cours de 12e même sans internet. Exemple : demande 'c'est quoi la chimie ?' | Slogan : "+SLOGAN;
+ return IDENTITY;
 }
 async function send(){
  let t=q.value.trim();if(!t) return;
