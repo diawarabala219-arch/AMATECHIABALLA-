@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AMATECHIA V39 FAST - Balla Moussa Diawara</title>
+<title>AMATECHIA V40 - Balla Moussa Diawara</title>
 <style>
 body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 .top{background:#111;padding:12px;text-align:center;border-bottom:2px solid #facc15;position:sticky;top:0;z-index:10}
@@ -13,7 +13,7 @@ body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 .msg{display:flex;gap:10px;margin:10px 0;padding:12px;background:#2a2a2a;border-radius:10px}
 .avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0}
 .user .avatar{background:#facc15;color:#000}.ai .avatar{background:#10a37f;color:#fff}
-.content{flex:1;white-space:pre-wrap;line-height:1.5;font-size:14px}
+.content{flex:1;white-space:pre-wrap;line-height:1.6;font-size:14px}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#111;padding:10px;border-top:1px solid #333}
 .box{max-width:700px;margin:0 auto;display:flex;gap:8px;background:#2f2f2f;border-radius:20px;padding:6px 10px}
 .box textarea{flex:1;background:transparent;border:none;color:#fff;outline:none;font-size:16px;resize:none;height:22px}
@@ -22,18 +22,18 @@ body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 </head>
 <body>
 <div class="top">
-<b>AMATECHIA V39 FAST</b><div class="slogan">☪️ Allah est le tout puissant ☪️</div>
-<div style="font-size:11px;opacity:.7">Créée par Balla Moussa Diawara - Développeur - Réponse en 0.1s</div>
+<b>AMATECHIA V40</b><div class="slogan">☪️ Allah est le tout puissant ☪️</div>
+<div style="font-size:11px;opacity:.7">Créée par Balla Moussa Diawara - Développeur - Ultra Rapide</div>
 </div>
 <div class="main">
 <div id="welcome" style="text-align:center">
-<h2>Rapide comme l'éclair ⚡</h2>
+<h2>Je réponds à tout ⚡</h2>
 <p style="color:#facc15;font-weight:bold">Allah est le tout puissant</p>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
-<div class="card" onclick="ask('Qui est ton créateur ?')">Créateur ?</div>
+<div class="card" onclick="ask('Qui est Muhammad SWS')">Muhammad SWS ?</div>
 <div class="card" onclick="ask('Qu est ce que la chimie')">Chimie</div>
-<div class="card" onclick="ask('Explique la photosynthèse')">Biologie</div>
-<div class="card" onclick="ask('C est quoi une dérivée')">Maths</div>
+<div class="card" onclick="ask('C est quoi la photosynthèse')">Biologie</div>
+<div class="card" onclick="ask('Qui est ton créateur')">Créateur ?</div>
 </div>
 </div>
 <div id="chat"></div>
@@ -45,55 +45,43 @@ body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 </div>
 </div>
 <script>
-const PARCOURS="Balla Moussa Diawara né le 10/09/2006 à Matoto, élève de la 12e Science Expérimentale au lycée Timbo de Sanoyah, fils de Abdourahmane et de Fadima Diawara. Il créa AMATECHIA à 19 ans depuis son téléphone à 0 FG. Jeune visionnaire guinéen km36 Sanoyah. Développeur de l'appli.";
+const PARCOURS="Balla Moussa Diawara né le 10/09/2006 à Matoto, 12e Science Expérimentale lycée Timbo de Sanoyah, fils de Abdourahmane et Fadima Diawara. Il créa AMATECHIA à 19 ans depuis son téléphone à 0 FG. Développeur de l'appli.";
 const SLOGAN="Allah est le tout puissant";
-const IDENTITY="Je suis AMATECHIA V39, créée et développée par Balla Moussa Diawara, développeur de l'appli. Je ne suis PAS OpenAI, PAS Meta, PAS ChatGPT.";
+const IDENTITY="Je suis AMATECHIA V40, créée et développée par Balla Moussa Diawara, développeur de l'appli. Je ne suis PAS OpenAI, PAS Meta, PAS ChatGPT.";
+let lastTopic=""; // Pour comprendre "Qui était il"
 const chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),q=document.getElementById('q');
 function add(role,text){let d=document.createElement('div');d.className='msg '+role;let c=document.createElement('div');c.className='content';c.textContent=text;let av=document.createElement('div');av.className='avatar';av.textContent=role=='user'?'B':'A';d.appendChild(av);d.appendChild(c);chat.appendChild(d);window.scrollTo(0,999999);return c;}
 function ask(t){q.value=t;send();}
 
-function fastAnswer(question){
- let l=question.toLowerCase().trim();
- // IDENTITÉ - INSTANTANÉ
- if(l.includes('slogan')) return "Mon slogan officiel est : "+SLOGAN+" ☪️";
- if(l.includes('qui')&&(l.includes('créé')||l.includes('createur')||l.includes('t\'as')||l.includes('t as')||l.includes('balla')||l.includes('developpeur')||l.includes('qui es tu'))) return IDENTITY+"\n\n"+PARCOURS+"\n\nSlogan : "+SLOGAN;
- if(l.includes('ton but')||l.includes('ton role')||l.includes('objectif')) return IDENTITY+"\n\nMon but : aider les élèves guinéens, expliquer les cours de 12e, idées business 0 FG, répondre vite à tout. "+SLOGAN;
- // COURS 12e - INSTANTANÉ
- if(l.includes('chimie')) return "🔬 CHIMIE : science de la matière et ses transformations.\n• Organique : alcanes CnH2n+2, alcènes, alcools R-OH, acides R-COOH\n• Minérale : acide-base, pH=-log[H+], oxydoréduction\n• Ex: combustion CH4+2O2→CO2+2H2O\n"+SLOGAN+" | "+PARCOURS.split('.')[0];
- if(l.includes('physique')) return "⚡ PHYSIQUE 12e : Mécanique F=m*a, Énergie Ec=½mv², Électricité U=R*I, Ondes. Je t'explique tout en détail.";
- if(l.includes('biologie')||l.includes('bio')||l.includes('photosynthèse')||l.includes('adn')||l.includes('cellule')) return "🧬 BIOLOGIE : Cellule, ADN, photosynthèse 6CO2+6H2O→C6H12O6+6O2, génétique, système immunitaire. Pose ta question précise !";
- if(l.includes('math')||l.includes('dérivée')||l.includes('intégrale')||l.includes('fonction')||l.includes('limite')) return "📐 MATHS 12e : Dérivée f'(x)=lim h→0 [f(x+h)-f(x)]/h, primitives, probas, suites. Exemple: dérivée de x² = 2x. Demande un exercice !";
- if(l.includes('histoire')||l.includes('géo')) return "🌍 HISTOIRE-GÉO : Je peux expliquer colonisation, indépendance Guinée 1958, Sékou Touré, etc.";
- if(l.includes('anglais')||l.includes('français')||l.includes('philo')) return "📚 Littérature : Je t'aide en dissertation, commentaire, traduction. Donne ton sujet !";
- if(l.includes('business')||l.includes('argent')||l.includes('0 fg')) return "💰 BUSINESS 0 FG : 1) Vendre affiches à Sanoyah 2) Cours à domicile 3) Création CV sur téléphone. Commence avec 0 FG comme moi !";
- // RÉPONSE GÉNÉRIQUE RAPIDE POUR TOUT LE RESTE - PLUS DE "En cours..."
- return "⚡ AMATECHIA V39 : "+question+"\n\n→ Réponse : En tant qu'IA créée par Balla Moussa Diawara (12e Science Expérimentale, Timbo), je peux t'expliquer ça clairement. \n\n"+getDetail(question)+"\n\nSlogan : "+SLOGAN;
-}
-function getDetail(q){
- let l=q.toLowerCase();
- if(l.length<5) return "Pose ta question complète et je réponds instantanément !";
- return "Voici l'essentiel : "+q+" est un sujet important en 12e Science Expérimentale. Je l'explique simplement, avec exemples et formules si besoin. Si tu veux plus de détails, précise ton niveau ou donne un exercice.";
+function clean(text){
+ let low=text.toLowerCase();
+ if(low.includes("openai")||low.includes("meta ai")||low.includes("chatgpt")||low.includes("i'm sorry")||low.includes("as an ai language")){
+   return IDENTITY+" | Slogan : "+SLOGAN+"\n\n"+PARCOURS;
+ }
+ return text;
 }
 
-function send(){
- let t=q.value.trim();if(!t) return;
- if(welcome) welcome.style.display='none';
- q.value=''; add('user',t);
- // RÉPONSE IMMÉDIATE 0.1s
- let ans=fastAnswer(t);
- add('ai',ans);
- // Optionnel : amélioration en arrière-plan si internet
- if(ans.startsWith("⚡ AMATECHIA V39 :")){
-   fetch("https://text.pollinations.ai/"+encodeURIComponent("Tu es AMATECHIA V39 créée par Balla Moussa Diawara développeur appli, slogan Allah est le tout puissant, PAS OpenAI/Meta. Réponds court en français à: "+t)).then(r=>r.text()).then(txt=>{
-     if(txt && txt.length>10 && !txt.toLowerCase().includes("openai") && !txt.toLowerCase().includes("meta")){
-       // On remplace le dernier message par meilleure réponse
-       let last = chat.lastChild.querySelector('.content');
-       if(last) last.textContent = txt + "\n\nSlogan : "+SLOGAN+" | Créée par Balla Moussa Diawara";
-     }
-   }).catch(()=>{});
+function islamKnowledge(l){
+ if(l.includes('muhammad')||l.includes('mahomet')||l.includes('prophète')||l.includes('sws')||l.includes('psl')){
+   lastTopic="Muhammad";
+   return "☪️ MUHAMMAD SWS (570-632)\n\nLe dernier prophète de l'Islam, né à La Mecque, descendant d'Ismaël. À 40 ans, il reçoit la révélation du Coran par l'ange Jibril dans la grotte de Hira.\n\n• 610 : début de la révélation\n• 622 : Hégire à Médine\n• 632 : mort à Médine\n\nExemple pour tous, surnommé Al-Amine (le digne de confiance). Il a transmis le message : Allah est le tout puissant.\n\nSlogan : "+SLOGAN+" | Créée par Balla Moussa Diawara";
  }
+ if(l.includes('allah')||l.includes('islam')||l.includes('coran')||l.includes('sunnah')){
+   return "☪️ ISLAM : Religion monothéiste, 5 piliers : Shahada (Allah est le tout puissant), Salat, Zakat, Sawm Ramadan, Hajj. Coran révélé à Muhammad SWS.\nSlogan : "+SLOGAN;
+ }
+ return null;
 }
-q.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
-</script>
-</body>
-</html>
+
+function schoolKnowledge(l){
+ if(l.includes('chimie')) return "🔬 CHIMIE : science de la matière. Organique CnH2n+2, minérale pH=-log[H+]. Ex: CH4+2O2→CO2+2H2O\nSlogan: "+SLOGAN;
+ if(l.includes('photosynthèse')) return "🌿 PHOTOSYNTHÈSE : 6CO2+6H2O+ lumière → C6H12O6+6O2. Dans les chloroplastes, chlorophylle. Base de la vie.";
+ if(l.includes('dérivée')||l.includes('math')) return "📐 MATHS : Dérivée = pente instantanée. (x²)'=2x, (sin x)'=cos x. Utile en physique 12e.";
+ if(l.includes('cellule')||l.includes('adn')||l.includes('bio')) return "🧬 BIOLOGIE : Cellule unité du vivant, ADN double hélice, mitose, méiose.";
+ if(l.includes('physique')) return "⚡ PHYSIQUE : F=m*a, Ec=½mv², U=RI. Ondes, électricité.";
+ return null;
+}
+
+function identityKnowledge(l){
+ if(l.includes('slogan')) return "Mon slogan : "+SLOGAN+" ☪️";
+ if(l.includes('qui')&&(l.includes('créé')||l.includes('createur')||l.includes('t\'as')||l.includes('balla')||l.includes('developpeur')||l.includes('qui es tu'))) return IDENTITY+"\n\n"+PARCOURS+"\nSlogan: "+SLOGAN;
+ if(l.includes('ton but')||l.includes('but')) return IDENTITY+"\nMon but : aider les Guinéens, expliquer cours 12e
