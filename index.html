@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AMATECHIA V36 - Balla Moussa Diawara</title>
-<script src="https://js.puter.com/v2/"></script>
+<title>AMATECHIA V37 - Balla Moussa Diawara</title>
 <style>
 body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 .top{background:#111;padding:12px;text-align:center;border-bottom:2px solid #facc15;position:sticky;top:0;z-index:10}
@@ -14,7 +13,7 @@ body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 .msg{display:flex;gap:10px;margin:12px 0;padding:12px;background:#2a2a2a;border-radius:10px}
 .avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0}
 .user .avatar{background:#facc15;color:#000}.ai .avatar{background:#10a37f;color:#fff}
-.content{flex:1;white-space:pre-wrap;line-height:1.5;font-size:14px}
+.content{flex:1;white-space:pre-wrap;line-height:1.6;font-size:14px}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#111;padding:10px;border-top:1px solid #333}
 .box{max-width:700px;margin:0 auto;display:flex;gap:8px;background:#2f2f2f;border-radius:20px;padding:6px 10px}
 .box textarea{flex:1;background:transparent;border:none;color:#fff;outline:none;font-size:16px;resize:none;height:22px}
@@ -23,17 +22,17 @@ body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 </head>
 <body>
 <div class="top">
-<b>AMATECHIA V36</b><div class="slogan">☪️ Allah est le tout puissant ☪️</div>
+<b>AMATECHIA V37</b><div class="slogan">☪️ Allah est le tout puissant ☪️</div>
 <div style="font-size:11px;opacity:.7">Par Balla Moussa Diawara - 12e Science Expérimentale - 0 FG</div>
 </div>
 <div class="main">
 <div id="welcome" style="text-align:center">
 <h2>Comment puis-je vous aider ?</h2>
 <p style="color:#facc15;font-weight:bold">Allah est le tout puissant</p>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div class="card" onclick="ask('Qui est Balla Moussa Diawara ?')">Qui est Balla Moussa ?</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+<div class="card" onclick="ask('Qui est Balla Moussa Diawara')">Qui est Balla Moussa ?</div>
 <div class="card" onclick="ask('Quel est ton slogan ?')">☪️ Slogan</div>
-<div class="card" onclick="ask('Qu est ce que la chimie ? Explique pour 12e Science Expérimentale')">Chimie 12e</div>
+<div class="card" onclick="ask('Qu est ce que la chimie')">Chimie 12e</div>
 <div class="card" onclick="ask('Que sais-tu faire ?')">Capacités</div>
 </div>
 </div>
@@ -48,28 +47,38 @@ body{margin:0;background:#212121;color:#fff;font-family:system-ui}
 <script>
 const PARCOURS="Balla Moussa Diawara né le 10/09/2006 à Matoto, élève de la 12e Science Expérimentale au lycée Timbo de Sanoyah, fils de Abdourahmane et de Fadima Diawara. Il créa AMATECHIA à l'âge de 19 ans après plusieurs nuits blanches d'échec depuis son téléphone à seulement zéro FG. Jeune visionnaire guinéen de km36 à Sanoyah.";
 const SLOGAN="Allah est le tout puissant";
-const SYSTEM="Tu es AMATECHIA V36 créée par "+PARCOURS+". Slogan: "+SLOGAN+". Tu es une IA pour élève de 12e Science Expérimentale. Tu expliques très bien les cours (chimie, physique, bio, maths). Ne dis jamais gho. Quand on demande qui est ton créateur, cite le PARCOURS exact. Quand on demande slogan, dis SLOGAN.";
 const chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),q=document.getElementById('q');
 function add(role,text){let d=document.createElement('div');d.className='msg '+role;let c=document.createElement('div');c.className='content';c.textContent=text;let av=document.createElement('div');av.className='avatar';av.textContent=role=='user'?'B':'A';d.appendChild(av);d.appendChild(c);chat.appendChild(d);window.scrollTo(0,999999);return c;}
 function ask(t){q.value=t;send();}
-async function getAI(question){
- // 1. Réponses instantanées locales
+function localKnowledge(question){
  let l=question.toLowerCase();
  if(l.includes('slogan')) return "Mon slogan officiel est : "+SLOGAN+" ☪️";
- if((l.includes('qui est')&&l.includes('balla'))||l.includes('parcours')||l.includes('createur')) return PARCOURS+"\n\nSlogan : "+SLOGAN;
- // 2. Sinon essaie vraie IA
+ if(l.includes('balla')||l.includes('parcours')||l.includes('createur')||l.includes('qui est ton')) return PARCOURS+"\n\nSlogan : "+SLOGAN;
+ if(l.includes('chimie')) return "🔬 LA CHIMIE (12e Science Expérimentale)\n\nC'est la science qui étudie la matière et ses transformations.\n\n1. Chimie organique : hydrocarbures, alcools, acides carboxyliques, esters\n2. Chimie générale : acide-base, pH, oxydoréduction, dosage\n3. Rôle : comprendre les médicaments, les engrais, le pétrole\n\nExemple : CH4 + 2O2 → CO2 + 2H2O (combustion du méthane)\n\nSlogan : "+SLOGAN;
+ if(l.includes('physique')) return "⚡ PHYSIQUE : étude de l'énergie, force, électricité. Formule clé : F=m*a";
+ if(l.includes('biologie')||l.includes('bio')) return "🧬 BIOLOGIE : étude du vivant, cellules, ADN, génétique";
+ if(l.includes('math')) return "📐 MATHS : fonctions, dérivées, intégrales, probabilités";
+ if(l.includes('salut')||l.includes('bonjour')||l.includes('slt')) return "Salut ! Je suis AMATECHIA V37 créée par Balla Moussa Diawara. "+SLOGAN+". Comment t'aider ?";
+ if(l.includes('faire')||l.includes('capacit')) return "Je peux : expliquer tes cours de 12e (chimie, physique, maths, bio), idées business 0 FG, aider aux devoirs. Créée par "+PARCOURS+" | "+SLOGAN;
+ return null;
+}
+async function getAI(question){
+ let local = localKnowledge(question);
+ if(local) return local;
+ // Sinon essaie Pollinations sans compte
  try{
-   const r = await puter.ai.chat([{role:"system",content:SYSTEM},{role:"user",content:question}],{model:"gpt-4o-mini"});
-   let txt = typeof r==='string'?r:(r.message?.content||r.toString());
-   if(txt && txt.length>10) return txt;
- }catch(e){console.log("puter fail",e);}
- try{
-   let res=await fetch("https://text.pollinations.ai/"+encodeURIComponent(question)+"?system="+encodeURIComponent(SYSTEM));
-   if(res.ok){let t=await res.text(); if(t && !t.includes("Free limit") && t.length>10) return t;}
+   let url="https://text.pollinations.ai/"+encodeURIComponent(question+" (réponds en français, court, comme un prof de 12e Science Expérimentale. Ton créateur est Balla Moussa Diawara, slogan: Allah est le tout puissant)");
+   let res=await fetch(url);
+   if(res.ok){
+     let txt=await res.text();
+     if(txt && txt.length>5 && !txt.toLowerCase().includes("free limit") && !txt.toLowerCase().includes("sign up")){
+       return txt;
+     } else {
+       return "J'ai trop de demandes (limite 1 question / 30 secondes). Attends 30s et réessaie. En attendant, je peux répondre à tes cours de 12e localement ! Slogan : "+SLOGAN;
+     }
+   }
  }catch(e){}
- // 3. Fallback intelligent pour la chimie
- if(l.includes('chimie')) return "La chimie est la science qui étudie la matière, sa composition, ses propriétés et ses transformations.\n\nPour la 12e Science Expérimentale :\n• Chimie organique : alcanes, alcènes, alcools, acides\n• Chimie minérale : réactions acide-base, oxydoréduction\n• Elle explique comment les substances réagissent entre elles.\n\nCréée par "+PARCOURS.split('.')[0]+". Slogan : "+SLOGAN;
- return "Je suis AMATECHIA V36. Je peux t'expliquer tous les cours de 12e Science Expérimentale. Pose ta question ! Slogan : "+SLOGAN;
+ return "Je suis AMATECHIA V37. Je réponds à tes cours de 12e même sans internet. Exemple : demande 'c'est quoi la chimie ?' | Slogan : "+SLOGAN;
 }
 async function send(){
  let t=q.value.trim();if(!t) return;
