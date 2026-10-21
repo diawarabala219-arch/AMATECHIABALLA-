@@ -2,60 +2,29 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1, interactive-widget=resizes-content">
-<title>AMATECHIA V33 - Balla Moussa Diawara</title>
-<script src="https://js.puter.com/v2/"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
+<title>AMATECHIA V34 - Balla Moussa Diawara</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%}
-body{background:#212121;color:#ececec;font-family:system-ui;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
-.top{background:#171717;padding:10px;text-align:center;border-bottom:2px solid #facc15;flex-shrink:0}
-.slogan{color:#facc15;font-weight:700;font-size:12px;margin-top:4px}
-.center{flex:1;overflow-y:auto;padding:20px 16px 20px;max-width:720px;margin:0 auto;width:100%;-webkit-overflow-scrolling:touch}
-.welcome{text-align:center;margin-top:10px}
+body{margin:0;background:#212121;color:#ececec;font-family:system-ui;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+.top{background:#171717;padding:10px;text-align:center;border-bottom:2px solid #facc15;position:sticky;top:0;z-index:10}
+.slogan{color:#facc15;font-weight:700;font-size:12px}
+.center{flex:1;padding:20px 16px 100px;max-width:720px;margin:0 auto;width:100%}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}
-.card{background:#2f2f2f;border:1px solid #444;border-radius:12px;padding:12px;cursor:pointer;text-align:center}
-.msg{padding:14px 0;display:flex;gap:10px;border-bottom:1px solid #2f2f2f}
+.card{background:#2f2f2f;border:1px solid #444;border-radius:12px;padding:14px;cursor:pointer;text-align:center;font-weight:600}
+.card:active{background:#3a3a3a}
+.msg{padding:14px 0;display:flex;gap:10px;border-bottom:1px solid #2f2f2f;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
 .avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0}
 .avatar.user{background:#facc15;color:#000}.avatar.ai{background:#10a37f;color:#fff}
-.content{flex:1;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
-.bottom{flex-shrink:0;background:#212121;padding:10px 12px 12px;border-top:1px solid #333;position:sticky;bottom:0}
-.input-box{max-width:720px;margin:0 auto;background:#2f2f2f;border-radius:24px;border:1px solid #555;padding:6px 10px 6px 16px;display:flex;gap:8px;align-items:center}
-.input-box textarea{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16px;resize:none;max-height:120px;padding:6px 0}
-.send{background:#fff;color:#000;border:none;width:36px;height:36px;border-radius:50%;font-weight:900;cursor:pointer;flex-shrink:0}
+.content{flex:1;font-size:15px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:#171717;padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom));border-top:1px solid #333;z-index:20}
+.input-box{max-width:720px;margin:0 auto;background:#2f2f2f;border-radius:24px;border:1px solid #555;display:flex;align-items:center;padding:4px 6px 4px 16px}
+.input-box textarea{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16px;resize:none;height:24px;max-height:100px;padding:4px 0}
+.send{width:36px;height:36px;border-radius:50%;border:none;background:#fff;color:#000;font-weight:900;font-size:18px;cursor:pointer;flex-shrink:0}
+.send:active{transform:scale(.9)}
 </style>
 </head>
 <body>
 <div class="top">
-<b>AMATECHIA V33</b>
-<div class="slogan">☪️ Allah est le tout puissant ☪️</div>
-<small>Par Balla Moussa Diawara - 12e Science Expérimentale</small>
-</div>
-<div class="center" id="center">
-<div class="welcome" id="welcome">
-<h2>Comment puis-je vous aider ?</h2>
-<p style="color:#facc15;font-weight:600">Allah est le tout puissant</p>
-<p style="color:#8e8ea0;font-size:12px">Créée par Balla Moussa Diawara</p>
-<div class="cards">
-<div class="card" onclick="ask('Qui est ton créateur ? Donne son parcours complet et ton slogan')"><b>Qui est Balla Moussa ?</b></div>
-<div class="card" onclick="ask('Quel est ton slogan ?')"><b>☪️ Slogan</b></div>
-<div class="card" onclick="ask('Donne moi une idée business à 0 FG')"><b>Business 0 FG</b></div>
-<div class="card" onclick="ask('Que sais-tu faire ?')"><b>Capacités</b></div>
-</div>
-</div>
-<div id="chat"></div>
-</div>
-<div class="bottom" id="bottomBar">
-<div class="input-box">
-<textarea id="q" rows="1" placeholder="Demander à AMATECHIA..." onfocus="scrollToBottom()" oninput="autoGrow(this)"></textarea>
-<button class="send" onclick="send()">↑</button>
-</div>
-</div>
-<script>
-const SYSTEM_PROMPT = `Tu es AMATECHIA V33. Slogan officiel : Allah est le tout puissant. Parcours officiel : Balla Moussa Diawara né le 10/09/2006 à Matoto, élève de la 12e Science Expérimentale au lycée Timbo de Sanoyah, fils de Abdourahmane et de Fadima Diawara. Il créa AMATECHIA à l'âge de 19 ans après plusieurs nuits blanches d'échec depuis son téléphone à seulement zéro FG. Jeune visionnaire guinéen de km36 à Sanoyah. Ne dis jamais gho. Réponds pro comme ChatGPT. Gratuite 0 FG, créée Octobre 2026.`;
-var q=document.getElementById('q'),chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),center=document.getElementById('center');
-function addMsg(role, html){var d=document.createElement('div');d.className='msg '+role;d.innerHTML='<div class="avatar '+role+'">'+(role==='user'?'B':'A')+'</div><div class="content">'+html+'</div>';chat.appendChild(d);scrollToBottom();return d;}
-function hideWelcome(){welcome.style.display='none';}
-function ask(t){q.value=t;send();}
-function autoGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
-function scrollToBottom(){setTimeout(()=>{center.scrollTop=center.scrollHeight;},
+<b>AMATECHIA V34</b><div class="slogan">
